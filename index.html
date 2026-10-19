@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="A practical JavaScript workbook with 13 tasks and interactive demos.">
+  <title>JavaScript from Zero | AMR Practice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+<div class="site-shell">
+  <header class="topbar">
+    <a class="brand" href="#top"><span class="brand-mark">JS</span><span><strong>JS from Zero</strong><small>Practice workbook</small></span></a>
+    <nav class="nav-links" aria-label="Main navigation"><a href="#curriculum">Curriculum</a><a href="#playground">Playground</a><a href="#run-tests">Tests</a></nav>
+    <a class="github-link" href="https://github.com/omarkarkotlykarkotly-lab/amr-javascript-tasks" target="_blank" rel="noreferrer">View on GitHub ↗</a>
+  </header>
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse-dot"></span> 13 tasks · 5 levels · no frameworks</div>
+        <h1>Build your JavaScript<br><em>one concept at a time.</em></h1>
+        <p class="hero-description">A hands-on workbook that starts with the console, grows into real data, then makes the browser respond to you.</p>
+        <div class="hero-actions"><a class="button button-primary" href="#curriculum">Explore the tasks ↓</a><a class="button button-quiet" href="#playground">Try the playground</a></div>
+        <div class="hero-stats"><div><strong>13</strong><span>Exercises</span></div><div><strong>05</strong><span>Learning levels</span></div><div><strong>0</strong><span>Dependencies</span></div></div>
+      </div>
+      <div class="hero-code">
+        <div class="editor-top"><div class="window-dots"><i></i><i></i><i></i></div><span>hello-world.js</span><span class="editor-status">● ready</span></div>
+        <pre><code><span class="line-no">01</span> <span class="code-purple">const</span> learner = <span class="code-green">"you"</span>;
+<span class="line-no">02</span> <span class="code-purple">let</span> progress = <span class="code-orange">0</span>;
+<span class="line-no">03</span>
+<span class="line-no">04</span> <span class="code-purple">function</span> practice() {
+<span class="line-no">05</span>   progress++;
+<span class="line-no">06</span>   <span class="code-purple">return</span> learner + <span class="code-green">" is learning!"</span>;
+<span class="line-no">07</span> }
+<span class="line-no">08</span> console.log(practice());</code></pre>
+        <div class="editor-bottom"><span>UTF-8</span><span>JavaScript</span><span>Ready to learn</span></div>
+      </div>
+      <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+    </section>
+    <section class="learning-path" aria-label="Learning path">
+      <div class="path-heading"><span class="section-kicker">THE JOURNEY</span><span>From first log to a working app</span></div>
+      <div class="path-items">
+        <div class="path-item"><span class="path-num">01</span><span class="path-name">Basics</span><span class="path-caption">Speak JavaScript</span></div><span class="path-arrow">→</span>
+        <div class="path-item"><span class="path-num">02</span><span class="path-name">Logic</span><span class="path-caption">Make decisions</span></div><span class="path-arrow">→</span>
+        <div class="path-item"><span class="path-num">03</span><span class="path-name">Data</span><span class="path-caption">Shape information</span></div><span class="path-arrow">→</span>
+        <div class="path-item"><span class="path-num">04</span><span class="path-name">DOM</span><span class="path-caption">Control the page</span></div><span class="path-arrow">→</span>
+        <div class="path-item"><span class="path-num">05</span><span class="path-name">Project</span><span class="path-caption">Put it together</span></div>
+      </div>
+    </section>
+    <section id="curriculum" class="section-block">
+      <div class="section-heading"><div><span class="section-kicker">THE CURRICULUM</span><h2>Choose a task. <em>Make it click.</em></h2><p>Read the goal, explore the solution, then try changing the example.</p></div><div class="progress-counter"><strong id="task-count">13</strong><span>tasks available</span></div></div>
+      <div class="task-controls">
+        <label class="search-box"><span aria-hidden="true">⌕</span><input id="task-search" type="search" placeholder="Search concepts or tasks…" aria-label="Search tasks"></label>
+        <div class="filter-row" id="level-filters" aria-label="Filter by level">
+          <button class="filter-button is-active" data-level="all" type="button" aria-pressed="true">All levels</button>
+          <button class="filter-button" data-level="1" type="button" aria-pressed="false">01 Basics</button>
+          <button class="filter-button" data-level="2" type="button" aria-pressed="false">02 Logic</button>
+          <button class="filter-button" data-level="3" type="button" aria-pressed="false">03 Data</button>
+          <button class="filter-button" data-level="4" type="button" aria-pressed="false">04 DOM</button>
+          <button class="filter-button" data-level="5" type="button" aria-pressed="false">05 Project</button>
+        </div>
+      </div>
+      <div id="task-grid" class="task-grid" aria-live="polite"></div><p id="empty-state" class="empty-state" hidden>No tasks match that search. Try a different keyword or level.</p>
+    </section>
+    <section id="playground" class="section-block playground">
+      <div class="section-heading"><div><span class="section-kicker">INTERACTIVE PLAYGROUND</span><h2>Learn by <em>doing.</em></h2><p>Experiment with conditions, loops, DOM changes, and application state.</p></div><div class="live-pill"><span class="pulse-dot"></span> Live demos</div></div>
+      <div class="demo-grid">
+        <article class="demo-card"><div class="demo-title"><span class="demo-icon">01</span><div><h3>Condition checker</h3><p>Task 2.2 · if / else</p></div></div><label for="score-input">Enter a score from 0 to 100</label><div class="demo-input-row"><input id="score-input" type="number" min="0" max="100" value="92"><button id="check-score" class="button button-small" type="button">Check</button></div><div id="score-output" class="demo-output" aria-live="polite">Excellent — you got it!</div></article>
+        <article class="demo-card"><div class="demo-title"><span class="demo-icon">02</span><div><h3>Loop calculator</h3><p>Task 2.3 · accumulation</p></div></div><label for="sum-input">Calculate 1 + 2 + … + n</label><div class="demo-input-row"><input id="sum-input" type="number" min="0" max="1000" value="10"><button id="calculate-sum" class="button button-small" type="button">Calculate</button></div><div id="sum-output" class="demo-output" aria-live="polite">Sum = 55</div></article>
+        <article class="demo-card"><div class="demo-title"><span class="demo-icon">03</span><div><h3>Click counter</h3><p>Task 4.2 · state → render</p></div></div><div class="counter-display" id="counter-value" aria-live="polite">0</div><div class="counter-buttons"><button id="counter-minus" class="button button-quiet" type="button" aria-label="Decrease counter">−</button><button id="counter-reset" class="button button-quiet" type="button">Reset</button><button id="counter-plus" class="button button-primary" type="button" aria-label="Increase counter">+</button></div></article>
+        <article class="demo-card"><div class="demo-title"><span class="demo-icon">04</span><div><h3>Tip calculator</h3><p>Task 4.3 · form values</p></div></div><form id="tip-form" class="tip-form"><label>Bill amount ($)<input name="bill" type="number" min="0.01" step="0.01" value="48.50" required></label><label>Tip percentage<select name="tipPercent"><option value="10">10%</option><option value="15" selected>15%</option><option value="18">18%</option><option value="20">20%</option></select></label><button class="button button-small" type="submit">Calculate tip</button></form><div id="tip-output" class="demo-output" aria-live="polite">Tip: $7.28 · Total: $55.78</div></article>
+        <article class="demo-card"><div class="demo-title"><span class="demo-icon">05</span><div><h3>DOM playground</h3><p>Task 4.1 · select & change</p></div></div><p id="dom-message" class="dom-message">This text is controlled by JavaScript.</p><div class="dom-buttons"><button id="dom-change" class="button button-small" type="button">Change text</button><button id="dom-highlight" class="button button-quiet" type="button">Toggle highlight</button><button id="dom-add" class="button button-quiet" type="button">Add item</button></div><ul id="dom-list" class="mini-list"><li>First item</li></ul></article>
+        <article class="demo-card"><div class="demo-title"><span class="demo-icon">06</span><div><h3>Mini Todo</h3><p>Task 5.1 · state & events</p></div></div><form id="todo-form" class="todo-form"><label class="visually-hidden" for="todo-input">New task</label><input id="todo-input" type="text" maxlength="120" placeholder="Add a task to practice…" autocomplete="off"><button class="button button-small" type="submit">Add</button></form><ul id="todo-list" class="todo-list" aria-live="polite"></ul><div class="todo-footer"><span id="todo-count">0 left</span><button id="todo-clear" class="text-button" type="button">Clear completed</button></div></article>
+      </div>
+    </section>
+    <section id="run-tests" class="section-block test-section"><div class="test-copy"><span class="section-kicker">CHECK YOUR UNDERSTANDING</span><h2>Confidence comes from <em>testing.</em></h2><p>Run the test suite to check the core functions, including important edge cases. No third-party packages are required.</p><code class="terminal-command">node tests/run-tests.js</code></div><div class="test-panel"><div class="test-panel-head"><span class="window-dots"><i></i><i></i><i></i></span><strong>test results</strong><span class="test-status">ready to run</span></div><div class="test-panel-body"><p>✓ Functions and return values</p><p>✓ Boundaries and invalid input</p><p>✓ Arrays, objects, and array methods</p><p>✓ Counter, tip calculator, and Todo state</p><div class="test-note">Open your terminal in the project folder and run the command above.</div></div></div></section>
+    <section class="next-steps"><div><span class="section-kicker">ONE STEP AT A TIME</span><h2>Understand it. Change it. <em>Own it.</em></h2><p>Try to explain each solution without reading it. Then make one small change and test what happens.</p></div><a class="button button-primary" href="#curriculum">Back to the tasks ↑</a></section>
+  </main>
+  <footer class="footer"><a class="brand" href="#top"><span class="brand-mark">JS</span><span><strong>JS from Zero</strong><small>Practice workbook</small></span></a><p>Built for learning. Powered by curiosity and vanilla JavaScript.</p><a href="README.md">Read the project guide ↗</a></footer>
+</div>
+</body>
+</html>
