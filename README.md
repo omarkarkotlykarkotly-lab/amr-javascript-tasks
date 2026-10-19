@@ -12,6 +12,10 @@ A beginner-friendly JavaScript workbook with 13 exercises across five levels. It
 ## Extra project: ToDo App with Zustand
 A separate React app is available in [zustand-todo-app](./zustand-todo-app/), using Zustand state management and localStorage persistence. Live app: [FocusFlow ToDo](https://omarkarkotlykarkotly-lab.github.io/amr-javascript-tasks/zustand-todo-app/).
 
+## Final project: FAQ Accordion with React
+
+A responsive, English-language React FAQ with topic filtering, live search, multi-open accordion controls, and accessible question/answer relationships. Open the [FAQ Accordion live demo](https://omarkarkotlykarkotly-lab.github.io/amr-javascript-tasks/faq-accordion-react/) or view the [source files](./faq-accordion-react/).
+
 ## Run the JavaScript workbook locally
 Open this repository in VS Code. Run a local server from the project directory:
 
