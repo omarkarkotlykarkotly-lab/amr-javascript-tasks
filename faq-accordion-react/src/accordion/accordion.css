@@ -69,3 +69,25 @@
 @media (prefers-reduced-motion: reduce) {
   .accordion *, .accordion *::before, .accordion *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; scroll-behavior: auto !important; }
 }
+
+
+.accordion[data-orientation="horizontal"] {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.accordion[data-orientation="horizontal"] > .accordion-item {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.accordion[data-orientation="horizontal"] .accordion-trigger {
+  text-align: start;
+}
+@media (max-width: 520px) {
+  .accordion[data-orientation="horizontal"] {
+    flex-direction: column;
+  }
+  .accordion[data-orientation="horizontal"] > .accordion-item {
+    width: 100%;
+  }
+}
