@@ -31,6 +31,7 @@ function readDataOptions(element) {
   const data = element.dataset;
   return {
     type: data.type,
+    disabled: data.disabled,
     collapsible: data.collapsible,
     variant: data.variant,
     size: data.size,
@@ -164,7 +165,7 @@ export class Accordion {
     trigger.classList.add("accordion__trigger");
     if (!trigger.id) trigger.id = (this.element.id || "accordion") + "-trigger-" + index + "-" + (++generatedId);
 
-    let heading = trigger.parentElement?.matches(this.options.headingLevel)
+    let heading = trigger.parentElement?.matches("h2, h3, h4, h5, h6")
       ? trigger.parentElement
       : null;
 
@@ -237,6 +238,7 @@ export class Accordion {
     if (!["ltr", "rtl"].includes(this.options.dir)) this.options.dir = "ltr";
     this.options.collapsible = booleanOption(this.options.collapsible, false);
     this.options.animated = booleanOption(this.options.animated, true);
+    this.options.disabled = booleanOption(this.options.disabled, false);
 
     this.element.dataset.type = this.options.type;
     this.element.dataset.variant = this.options.variant;
