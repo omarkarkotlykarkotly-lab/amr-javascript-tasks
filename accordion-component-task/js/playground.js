@@ -186,7 +186,7 @@ function buildUsageCode() {
     'import { Accordion } from "./js/accordion.js";',
     "",
     "// " + count + " HTML, CSS, and JavaScript lessons",
-    "const lessons = [...];",
+    "const lessons = []; // Add your lesson objects here",
     "",
     'const accordion = new Accordion(document.querySelector("[data-accordion]"), {',
     '  type: "' + settings.type + '",',
