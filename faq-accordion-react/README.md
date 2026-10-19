@@ -35,6 +35,10 @@ Google Fonts are used for typography. If fonts cannot be reached, the page falls
 
 The playground begins with ten short, beginner-level topics: HTML document structure, semantic elements, links and images, CSS selectors, the box model, responsive layouts, JavaScript variables, functions, DOM events, and arrays. Each lesson includes an explanation and a code example. The topic chips filter the lessons by language, and search checks the title, explanation, category, and code sample.
 
+## Lesson content
+
+The playground includes ten short beginner topics: HTML document structure, semantic elements, links and images, CSS selectors, the box model, responsive layouts, JavaScript variables, functions, DOM events, and arrays. Every lesson includes an explanation and a code sample. Category chips filter the active language, and search includes titles, explanations, categories, and snippets.
+
 ## Reusable Accordion class
 
 Import the class into any page:
@@ -132,7 +136,7 @@ Any markup marked with data-accordion is initialized automatically. Add data-typ
 - [ ] Use Tab, Shift+Tab, Enter, and Space to move through and activate question triggers.
 - [ ] Use Arrow Up/Down, Home, and End; confirm disabled items are skipped.
 - [ ] Check each panel’s accessible name and expanded state in a screen reader.
-- [ ] Search a word in a question and a different word in an answer; confirm highlighted matches and live counts.
+- [ ] Search a word in a lesson title, explanation, and code sample; confirm highlighted matches and live counts.
 - [ ] Switch between single and multiple selection, and test collapsible on and off.
 - [ ] Change style, size, icon shape, icon position, and heading level.
 - [ ] Enable RTL and confirm alignment, icon placement, and keyboard flow remain usable.
