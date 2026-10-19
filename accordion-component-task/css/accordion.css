@@ -281,11 +281,11 @@ html[data-theme="light"] .accordion__content {
   transform: translateX(0);
 }
 
-.accordion[dir="rtl"][data-orientation="horizontal"] .accordion__icon[data-shape="arrow"] svg {
+.accordion[dir="rtl"] .accordion__icon[data-shape="arrow"] svg {
   transform: scaleX(-1);
 }
 
-.accordion[dir="rtl"][data-orientation="horizontal"] .accordion__trigger[aria-expanded="true"] .accordion__icon[data-shape="arrow"] svg {
+.accordion[dir="rtl"] .accordion__trigger[aria-expanded="true"] .accordion__icon[data-shape="arrow"][data-position="end"] svg {
   transform: scaleX(-1) rotate(180deg);
 }
 
