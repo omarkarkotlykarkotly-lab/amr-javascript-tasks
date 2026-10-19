@@ -175,10 +175,6 @@
   transform: rotate(180deg);
 }
 
-.accordion__trigger[aria-expanded="true"] .accordion__icon[data-shape="plus"] svg {
-  transform: rotate(45deg);
-}
-
 .accordion__panel {
   display: grid;
   grid-template-rows: 0fr;
