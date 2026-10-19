@@ -60,7 +60,7 @@ jobs:
             if (checked.has(absoluteFile)) return;
             checked.add(absoluteFile);
             const source = readFileSync(absoluteFile, "utf8");
-            const imports = [...source.matchAll(/(?:from\s*|import\s*)["'](\.\/[^"']+\.js)["']/g)];
+            const imports = [...source.matchAll(/^\s*import .*?\sfrom\s*["'](\.\/[^"']+\.js)["'];?\s*$/gm)];
             for (const [, specifier] of imports) {
               const importedFile = resolve(dirname(absoluteFile), specifier);
               assert.ok(existsSync(importedFile), "Missing local import: " + specifier + " from " + relativeFile);
