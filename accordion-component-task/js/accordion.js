@@ -32,6 +32,7 @@ function fromData(root) {
     animated: "animated", defaultOpen: "defaultOpen", dir: "dir", disabled: "disabled",
   };
   const parsed = {};
+  if (!root.dataset.type && root.dataset.multiple === "true") parsed.type = "multiple";
   Object.entries(map).forEach(([key, dataKey]) => {
     if (root.dataset[dataKey] === undefined) return;
     if (["collapsible", "animated", "disabled"].includes(key)) {
