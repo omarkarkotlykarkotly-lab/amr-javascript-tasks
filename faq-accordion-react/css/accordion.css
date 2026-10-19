@@ -121,3 +121,5 @@ html[data-theme="light"] .accordion__panel-inner p { color: #555b7a; }
   .accordion__panel-inner p { padding: 0 12px 16px 54px; font-size: 10px; }
   .accordion[dir="rtl"] .accordion__panel-inner p { padding: 0 54px 16px 12px; }
 }
+
+.accordion__panel[hidden] { display: none; }
