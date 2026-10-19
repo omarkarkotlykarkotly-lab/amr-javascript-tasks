@@ -36,7 +36,7 @@ export interface AccordionRootProps extends Omit<HTMLAttributes<HTMLDivElement>,
 }
 export interface AccordionItemProps extends HTMLAttributes<HTMLDivElement> { value: string; disabled?: boolean; children: ReactNode; }
 export interface AccordionTriggerProps extends ButtonHTMLAttributes<HTMLButtonElement> { icon?: AccordionIcon; children: ReactNode; }
-export interface AccordionContentProps extends HTMLAttributes<HTMLDivElement> { forceMount?: boolean; children: ReactNode; }
+export interface AccordionContentProps extends HTMLAttributes<HTMLDivElement> { children: ReactNode; }
 
 interface RootContextValue {
   rootId: string; type: AccordionType; openValues: ReadonlySet<string>; disabled: boolean;
