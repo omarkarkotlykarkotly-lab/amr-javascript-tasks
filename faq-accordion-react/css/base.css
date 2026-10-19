@@ -24,7 +24,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible
 }
 ::selection { color: #fff; background: #765fc4; }
 svg { display: block; flex: 0 0 auto; }
-[hidden] { display: none !important; }
+[hidden] { display: none; }
 .sr-only {
   position: absolute;
   width: 1px;
