@@ -263,7 +263,7 @@ const Root = forwardRef<HTMLDivElement, AccordionRootProps>(function AccordionRo
   const [internalValue, setInternalValue] = useState<string[]>(() => normalizeValue(type, initialValue));
   const selected = normalizeValue(type, controlled ? value : internalValue);
   const selectedKey = JSON.stringify(selected);
-  const openValues = useMemo(() => new Set(selected), [selectedKey]);
+  const openValues = useMemo(() => new Set(JSON.parse(selectedKey) as string[]), [selectedKey]);
   const normalizedVariant = resolveVariant(variant, bordered);
 
   const toggle = useCallback((itemValue: string) => {
