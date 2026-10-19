@@ -267,7 +267,7 @@ function buildUsageCode() {
   ].join("\n");
 }
 
-const TOKEN_PATTERN = /(\/\/.*|"(?:\\.|[^"])*"|'(?:\\.|[^'])*'|\b(?:import|from|const|new|true|false|return|class|export|default|if|else)\b|#[\w-]+|[A-Za-z_$][\w$]*(?=\s*:)|=>|[{}[\](),.;=])/g;
+const TOKEN_PATTERN = /(\/\/.*|"(?:\\.|[^"])*"|'(?:\\.|[^'])*'|\b(?:import|from|const|new|true|false|return|class|export|default|if|else)\b|#[\w-]+|[A-Za-z_$][\w$]*(?=\s*:)|=>|[{}\[\](),.;=])/g;
 
 function tokenClass(token) {
   if (token.startsWith("//")) return "syntax-comment";
@@ -401,10 +401,12 @@ searchInput.addEventListener("input", () => {
   clearSearchButton.hidden = searchInput.value.length === 0;
 });
 searchInput.addEventListener("search", () => {
+  onSearch.cancel();
   searchQuery = searchInput.value;
   renderQuestionList();
 });
 clearSearchButton.addEventListener("click", () => {
+  onSearch.cancel();
   searchInput.value = "";
   searchQuery = "";
   renderQuestionList();
@@ -457,6 +459,7 @@ document.addEventListener("keydown", (event) => {
 
   if (event.key === "Escape") {
     if (searchInput.value || searchQuery) {
+      onSearch.cancel();
       searchInput.value = "";
       searchQuery = "";
       renderQuestionList();
