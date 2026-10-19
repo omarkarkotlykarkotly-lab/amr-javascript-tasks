@@ -3,11 +3,11 @@ name: Vanilla Accordion checks
 on:
   push:
     paths:
-      - "faq-accordion-react/**"
+      - "accordion-component-task/**"
       - ".github/workflows/accordion-vanilla-check.yml"
   pull_request:
     paths:
-      - "faq-accordion-react/**"
+      - "accordion-component-task/**"
       - ".github/workflows/accordion-vanilla-check.yml"
   workflow_dispatch:
 
@@ -15,11 +15,8 @@ permissions:
   contents: read
 
 jobs:
-  checks:
+  vanilla-checks:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: faq-accordion-react
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -27,31 +24,73 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
-      - name: Check JavaScript module syntax
+      - name: Check JavaScript ES module syntax
+        shell: bash
         run: |
-          node --experimental-default-type=module --check js/accordion.js
-          node --experimental-default-type=module --check js/data.js
-          node --experimental-default-type=module --check js/utils.js
-          node --experimental-default-type=module --check js/playground.js
-          node --experimental-default-type=module --check js/utils.test.js
+          set -euo pipefail
+          for file in accordion-component-task/js/*.js; do
+            echo "Checking $file"
+            node --input-type=module --check < "$file"
+          done
 
-      - name: Run utility tests without third-party packages
-        run: node --experimental-default-type=module --test js/utils.test.js
-
-      - name: Verify the page does not load a framework or bundler
+      - name: Verify local assets and module imports
         run: |
-          if grep -En 'importmap|react-dom|from ["'\''"]react|vite' index.html js/*.js; then
-            echo "Unexpected framework or build-tool reference found."
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { existsSync, readFileSync } from "node:fs";
+          import { dirname, resolve } from "node:path";
+
+          const base = resolve("accordion-component-task");
+          const html = readFileSync(resolve(base, "index.html"), "utf8");
+          const cssLinks = [...html.matchAll(/<link[^>]+href="\.\/css\/([^"]+\.css)"/g)];
+          const entry = html.match(/<script[^>]+src="\.\/js\/([^"]+\.js)"/);
+
+          assert.equal(cssLinks.length, 5, "The page should load five modular stylesheets.");
+          for (const [, file] of cssLinks) {
+            assert.ok(existsSync(resolve(base, "css", file)), "Missing stylesheet: " + file);
+          }
+          assert.ok(entry, "The ES module entry point is missing.");
+          assert.ok(existsSync(resolve(base, "js", entry[1])), "The entry module does not exist.");
+
+          const checked = new Set();
+          function checkImports(relativeFile) {
+            const absoluteFile = resolve(base, relativeFile);
+            if (checked.has(absoluteFile)) return;
+            checked.add(absoluteFile);
+            const source = readFileSync(absoluteFile, "utf8");
+            const imports = [...source.matchAll(/(?:from\s*|import\s*)["'](\.\/[^"']+\.js)["']/g)];
+            for (const [, specifier] of imports) {
+              const importedFile = resolve(dirname(absoluteFile), specifier);
+              assert.ok(existsSync(importedFile), "Missing local import: " + specifier + " from " + relativeFile);
+              checkImports(importedFile.slice(base.length + 1));
+            }
+          }
+          checkImports("js/" + entry[1]);
+          assert.ok(!/!important/.test(readFileSync(resolve(base, "css/base.css"), "utf8")), "Base CSS should not use !important.");
+          console.log("Checked " + checked.size + " ES modules and " + cssLinks.length + " stylesheets.");
+          NODE
+
+      - name: Test utility functions
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { escapeHTML, highlightText, normalizeText, parseBoolean, parseIndexList } from "./accordion-component-task/js/utils.js";
+
+          assert.equal(escapeHTML('<img src=x onerror="bad">'), "&lt;img src=x onerror=&quot;bad&quot;&gt;");
+          assert.equal(highlightText("<React>", "react"), "&lt;<mark>React</mark>&gt;");
+          assert.deepEqual(parseIndexList("0, 2 4"), [0, 2, 4]);
+          assert.deepEqual(parseIndexList("[1,3]"), [1, 3]);
+          assert.equal(parseBoolean("true"), true);
+          assert.equal(parseBoolean("false"), false);
+          assert.equal(normalizeText("  React   Hooks "), "react hooks");
+          console.log("Utility tests passed.");
+          NODE
+
+      - name: Check CSS for forbidden overrides
+        run: |
+          if grep -R -n "!important" accordion-component-task/css; then
+            echo "Remove !important from the modular styles."
             exit 1
           fi
-          test -f css/tokens.css
-          test -f css/base.css
-          test -f css/layout.css
-          test -f css/accordion.css
-          test -f css/components.css
-          test -f js/accordion.js
-          test -f js/playground.js
-          test -f js/data.js
-          test -f js/utils.js
