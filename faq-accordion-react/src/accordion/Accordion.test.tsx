@@ -121,4 +121,71 @@ describe("Accordion", () => {
     );
     expect(screen.getByText("−")).toBeInTheDocument();
   });
+
+  it("supports the Header part and configurable heading levels", () => {
+    render(
+      <Accordion.Root type="single" headingLevel="h4" defaultValue="intro">
+        <Accordion.Item value="intro">
+          <Accordion.Header>
+            <Accordion.Trigger>Accessible heading trigger</Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Content>Answer panel.</Accordion.Content>
+        </Accordion.Item>
+      </Accordion.Root>
+    );
+    expect(screen.getByRole("heading", { level: 4, name: /accessible heading trigger/i })).toBeInTheDocument();
+  });
+
+  it("renders from data with the convenience Accordion component", () => {
+    render(
+      <Accordion
+        type="single"
+        variant="card"
+        size="lg"
+        defaultOpenFirst
+        items={[
+          { value: "one", title: "First data question", content: "First data answer." },
+          { value: "two", title: "Second data question", content: "Second data answer." },
+        ]}
+      />
+    );
+    expect(document.querySelector('[data-variant="card"]')).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /first data question/i })).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("button", { name: /second data question/i })).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("supports asChild without losing accordion semantics", () => {
+    render(
+      <Accordion.Root type="single" collapsible>
+        <Accordion.Item value="slotted">
+          <Accordion.Header>
+            <Accordion.Trigger asChild>
+              <button className="custom-trigger">Slotted trigger</button>
+            </Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Content>Slotted answer.</Accordion.Content>
+        </Accordion.Item>
+      </Accordion.Root>
+    );
+    const trigger = screen.getByRole("button", { name: /slotted trigger/i });
+    expect(trigger).toHaveClass("custom-trigger");
+    expect(trigger).toHaveAttribute("aria-controls");
+    fireEvent.click(trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+  });
+
+  it("supports custom icons at the start of a trigger", () => {
+    render(
+      <Accordion.Root type="single" iconPosition="start" icon={({ open }) => <span>{open ? "Open" : "Closed"}</span>}>
+        <Accordion.Item value="icon">
+          <Accordion.Trigger>Icon position</Accordion.Trigger>
+          <Accordion.Content>Custom icon answer.</Accordion.Content>
+        </Accordion.Item>
+      </Accordion.Root>
+    );
+    expect(screen.getByText("Closed")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /icon position/i }));
+    expect(screen.getByText("Open")).toBeInTheDocument();
+  });
+
 });
