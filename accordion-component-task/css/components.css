@@ -1079,3 +1079,58 @@ html[data-theme="light"] mark {
     animation-iteration-count: 1;
   }
 }
+
+
+html[data-theme="light"] .hero-card {
+  --hero-eyebrow: #51459b;
+  --hero-label: #252d52;
+}
+
+.clipboard-fallback {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.result-query {
+  color: inherit;
+}
+
+@media (max-width: 1190px) {
+  .sidebar__menu,
+  .mobile-mainbar {
+    display: flex;
+  }
+}
+
+@media (max-width: 850px) {
+  .mobile-mainbar {
+    display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .drawer-backdrop,
+  .accordion *,
+  .accordion *::before,
+  .accordion *::after,
+  .hero-card,
+  .questions-card,
+  .stat-card {
+    animation-duration: .01ms;
+    animation-iteration-count: 1;
+    transition-duration: .01ms;
+    scroll-behavior: auto;
+  }
+}
+
+[hidden] {
+  display: none;
+}
