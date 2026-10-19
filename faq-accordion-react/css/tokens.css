@@ -1,3 +1,4 @@
+/* Shared design tokens for both themes and all component surfaces. */
 :root {
   color-scheme: dark;
   --bg-page: #0a1330;
