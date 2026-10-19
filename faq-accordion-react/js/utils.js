@@ -7,7 +7,7 @@ export function filterQuestions(items, query) {
   if (!term) return [...items];
 
   return items.filter((item) =>
-    normalizeText(item.question + " " + item.answer).includes(term)
+    normalizeText([item.category, item.question, item.answer, item.exampleTitle, item.example].join(" ")).includes(term)
   );
 }
 
