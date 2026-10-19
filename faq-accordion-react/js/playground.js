@@ -35,6 +35,7 @@ const openValues = new Set(["html-document"]);
 let activeCategory = "all";
 let accordion = null;
 let visibleItems = [];
+let totalMatchingItems = 0;
 let searchQuery = "";
 let drawerOpen = false;
 let sidebarCollapsed = false;
@@ -90,11 +91,6 @@ function setSidebarCollapsed(collapsed) {
   appWindow.classList.toggle("sidebar-collapsed", sidebarCollapsed);
   sidebarToggle.setAttribute("aria-expanded", String(!sidebarCollapsed));
   sidebarToggle.setAttribute("aria-label", sidebarCollapsed ? "Expand controls" : "Collapse controls");
-}
-
-function selectedQuestions() {
-  const count = clampNumber(settings.count, 1, WEB_DEV_LESSONS.length, PLAYGROUND_DEFAULTS.count);
-  return WEB_DEV_LESSONS.slice(0, count);
 }
 
 function createQuestionElement(item, index) {
@@ -176,9 +172,12 @@ function renderQuestionList() {
     accordion = null;
   }
 
-  const baseItems = selectedQuestions();
-  const categoryItems = baseItems.filter((item) => activeCategory === "all" || item.category === activeCategory);
-  visibleItems = filterQuestions(categoryItems, searchQuery);
+  const categoryItems = WEB_DEV_LESSONS.filter((item) => activeCategory === "all" || item.category === activeCategory);
+  const matchingItems = filterQuestions(categoryItems, searchQuery);
+  totalMatchingItems = matchingItems.length;
+  const sourceItems = searchQuery ? matchingItems : categoryItems;
+  const visibleLimit = clampNumber(settings.count, 1, WEB_DEV_LESSONS.length, PLAYGROUND_DEFAULTS.count);
+  visibleItems = sourceItems.slice(0, visibleLimit);
   const normalizedOpenValues = new Set(
     visibleItems.map((item) => item.value).filter((value) => openValues.has(value))
   );
@@ -247,8 +246,8 @@ function updateRing(svg, labelNode, percent, accessibleName) {
 }
 
 function updateStatus() {
-  const baseCount = selectedQuestions().filter((item) => activeCategory === "all" || item.category === activeCategory).length;
   const resultCount = visibleItems.length;
+  const baseCount = searchQuery ? totalMatchingItems : resultCount;
   const openedCount = visibleItems.filter((item) => openValues.has(item.value)).length;
   const openPercent = resultCount ? openedCount / resultCount * 100 : 0;
   const matchPercent = baseCount ? resultCount / baseCount * 100 : 0;
@@ -259,10 +258,10 @@ function updateStatus() {
   searchResultCount.append(strong, document.createTextNode(" " + (resultCount === 1 ? "lesson" : "lessons")));
   if (searchQuery) searchResultCount.append(document.createTextNode(" for “" + searchQuery + "”"));
 
-  countBadge.textContent = selectedQuestions().length + " lessons";
+  countBadge.textContent = resultCount + (resultCount === 1 ? " lesson" : " lessons");
   openItemSummary.textContent = openedCount + " of " + resultCount + " expanded";
   matchItemSummary.textContent = resultCount + " of " + baseCount + " shown";
-  matchFootnote.textContent = searchQuery ? "Filtered by search" : activeCategory === "all" ? "All lessons visible" : "Filtered to " + activeCategory;
+  matchFootnote.textContent = searchQuery ? (totalMatchingItems > resultCount ? "Showing the first " + resultCount + " matches" : "Filtered by search") : activeCategory === "all" ? "All lessons visible" : "Filtered to " + activeCategory;
 
   updateRing(openRing, openRingLabel, openPercent, "Open items");
   updateRing(matchRing, matchRingLabel, matchPercent, "Search matches");
@@ -270,7 +269,7 @@ function updateStatus() {
 }
 
 function buildUsageCode() {
-  const baseCount = selectedQuestions().filter((item) => activeCategory === "all" || item.category === activeCategory).length;
+  const baseCount = visibleItems.length;
   return [
     'import { Accordion } from "./js/accordion.js";',
     "",
