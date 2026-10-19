@@ -655,7 +655,6 @@ html[data-theme="light"] .hero-card__results strong {
 .progress-ring__value {
   stroke: #a5baff;
   stroke-dasharray: 245.04;
-  stroke-dashoffset: 245.04;
   stroke-linecap: round;
   transform: rotate(-90deg);
   transform-origin: 50% 50%;
