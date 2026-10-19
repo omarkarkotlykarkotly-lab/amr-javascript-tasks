@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { useTodoStore, CATEGORIES, PRIORITIES } from "./store.js";
+import { useTodoStore, CATEGORIES, PRIORITIES } from "./store.js?v=2";
 
 const h = React.createElement;
 const FILTERS = [
