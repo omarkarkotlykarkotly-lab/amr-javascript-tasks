@@ -272,3 +272,30 @@ html[data-theme="light"] .code-toolbar { background: #edf0fa; }
 .code-body[hidden],
 .question-list[hidden],
 .empty-state[hidden] { display: none; }
+
+
+/* Language filters keep the lesson list easy to browse like a tutorial index. */
+.topic-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 17px;
+}
+.topic-filter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 13px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  background: color-mix(in srgb, var(--surface) 76%, transparent);
+  font-size: 10px;
+  font-weight: 650;
+  transition: color var(--motion-fast) ease, background var(--motion-fast) ease, border-color var(--motion-fast) ease, transform var(--motion-fast) ease;
+}
+.topic-filter:hover { color: var(--text); border-color: rgba(169, 190, 255, .42); background: var(--surface-raised); }
+.topic-filter:active { transform: scale(.97); }
+.topic-filter.is-active { border-color: rgba(169, 190, 255, .42); color: #f4f6ff; background: linear-gradient(135deg, #565dc2, #7760bd); box-shadow: 0 4px 14px rgba(78, 82, 181, .2); }
+html[data-theme="light"] .topic-filter.is-active { color: #fff; }
