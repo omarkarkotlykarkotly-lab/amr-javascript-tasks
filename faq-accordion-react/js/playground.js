@@ -78,6 +78,14 @@ function setDrawerOpen(open) {
 }
 
 function setSidebarCollapsed(collapsed) {
+  if (isCompactLayout()) {
+    sidebarCollapsed = false;
+    appWindow.classList.remove("sidebar-collapsed");
+    sidebarToggle.setAttribute("aria-expanded", String(drawerOpen));
+    sidebarToggle.setAttribute("aria-label", drawerOpen ? "Close settings" : "Open settings");
+    return;
+  }
+
   sidebarCollapsed = Boolean(collapsed);
   appWindow.classList.toggle("sidebar-collapsed", sidebarCollapsed);
   sidebarToggle.setAttribute("aria-expanded", String(!sidebarCollapsed));
