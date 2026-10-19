@@ -9,9 +9,9 @@ A beginner-friendly JavaScript workbook with 13 exercises across five levels. It
 - Level 4 — DOM: selectors, events, a click counter, and a tip calculator.
 - Level 5 — Mini project: a Todo app using task objects and events.
 
-## Task 2: Accordion Component (HTML, CSS & JavaScript)
+## Task 2: HTML, CSS & JavaScript Learning Accordion
 
-The standalone accordion task is also included in this Pages deployment so it has a live demo even if the separate repository's Pages setting is unavailable. Open the [Accordion Component live demo](https://omarkarkotlykarkotly-lab.github.io/amr-javascript-tasks/accordion-component-task/) or view the [original repository](https://github.com/omarkarkotlykarkotly-lab/accordion-component-task).
+A framework-free learning playground with beginner-friendly lessons and examples covering HTML, CSS, and JavaScript, inspired by topic-based web tutorials. It includes a reusable accessible Accordion class, live settings, light/dark themes, search, progress indicators, and copyable usage code. Open the [live learning Accordion](https://omarkarkotlykarkotly-lab.github.io/amr-javascript-tasks/accordion-component-task/) or view the [source folder](./accordion-component-task/).
 
 ## Extra project: ToDo App with Zustand
 A separate React app is available in [zustand-todo-app](./zustand-todo-app/), using Zustand state management and localStorage persistence. Live app: [FocusFlow ToDo](https://omarkarkotlykarkotly-lab.github.io/amr-javascript-tasks/zustand-todo-app/).
