@@ -1,95 +1,29 @@
-# Accord UI — React Accordion
+# Accord UI — React Accordion Playground
 
-Accord UI is an accessible compound Accordion API with a modern interactive documentation page. The repository keeps a no-build browser demo for GitHub Pages and strict TypeScript source for local development.
+Accord UI is an accessible, customizable React Accordion component library with a live configuration playground. The repository includes a no-build browser demo for GitHub Pages and a strict TypeScript implementation for app integration.
+
+## Explore the playground
+
+Open the live playground at:
+
+https://omarkarkotlykarkotly-lab.github.io/amr-javascript-tasks/faq-accordion-react/
+
+Change the style, size, icon, heading level, interaction type, animation, disabled state, and text direction. The React interview question list, live status rings, and generated JSX update as you change controls.
 
 ## Project structure
 
-- index.html, styles.css, and src/main.js — live documentation website and interactive examples.
-- src/accordion/Accordion.tsx — compound component implementation.
-- src/accordion/accordion.css — variants, responsive styles, and reduced-motion behavior.
-- src/accordion/types.ts and src/accordion/index.ts — public types and exports.
-- src/accordion/Accordion.test.tsx — interaction, state, keyboard, disabled, custom icon, and axe tests.
-- vite.config.ts, tsconfig files, and package.json — local development, type checking, and build configuration.
+- index.html, styles.css, and src/main.js — interactive three-column playground for GitHub Pages.
+- src/playground-utils.js and src/playground-utils.test.js — tested filtering, generated JSX, and clipboard helpers.
+- src/accordion/Accordion.tsx — compound component implementation and data-driven convenience component.
+- src/accordion/accordion.css — responsive styles, variants, icon states, RTL support, and reduced-motion behavior.
+- src/accordion/types.ts and src/accordion/index.ts — exported props, values, and public types.
+- src/accordion/Accordion.test.tsx — React Testing Library and jest-axe coverage.
+- src/accordion/Accordion.stories.tsx and .storybook/ — Storybook examples.
+- package.json, vite.config.ts, tsconfig files, and eslint.config.js — local development, builds, linting, and type checking.
 
-## Component API
+## Install and run locally
 
-The library uses the compound component pattern: Accordion.Root, Accordion.Item, Accordion.Trigger, and Accordion.Content. Each public component forwards its ref and native element props.
-
-### Single accordion
-
-~~~tsx
-import { Accordion } from "./src/accordion";
-import "./src/accordion/accordion.css";
-
-export function Details() {
-  return (
-    <Accordion.Root type="single" collapsible defaultValue="account">
-      <Accordion.Item value="account">
-        <Accordion.Trigger>Account settings</Accordion.Trigger>
-        <Accordion.Content>
-          Update your account preferences here.
-        </Accordion.Content>
-      </Accordion.Item>
-    </Accordion.Root>
-  );
-}
-~~~
-
-### Multiple items
-
-~~~tsx
-<Accordion.Root type="multiple" defaultValue={["profile", "privacy"]}>
-  <Accordion.Item value="profile">
-    <Accordion.Trigger>Profile</Accordion.Trigger>
-    <Accordion.Content>Manage your profile.</Accordion.Content>
-  </Accordion.Item>
-  <Accordion.Item value="privacy">
-    <Accordion.Trigger>Privacy</Accordion.Trigger>
-    <Accordion.Content>Review privacy settings.</Accordion.Content>
-  </Accordion.Item>
-</Accordion.Root>
-~~~
-
-### Controlled state
-
-~~~tsx
-const [value, setValue] = useState<string | undefined>("overview");
-
-<Accordion.Root
-  type="single"
-  value={value}
-  onValueChange={(next) => setValue(next || undefined)}
-  collapsible
->
-  {/* Compose Accordion.Item parts here. */}
-</Accordion.Root>
-~~~
-
-### Variants, sizes, RTL, and disabled items
-
-~~~tsx
-<Accordion.Root type="multiple" variant="filled" size="lg" dir="rtl">
-  <Accordion.Item value="advanced" disabled>
-    <Accordion.Trigger>Advanced options</Accordion.Trigger>
-    <Accordion.Content>This item is disabled.</Accordion.Content>
-  </Accordion.Item>
-</Accordion.Root>
-~~~
-
-Supported variants are default, bordered, filled, and ghost. Supported sizes are sm, md, and lg. The Trigger icon prop accepts a ReactNode or a render function receiving open, disabled, and direction.
-
-## Accessibility
-
-- Buttons live inside heading elements and expose aria-expanded and aria-controls.
-- Content panels use role="region" and aria-labelledby.
-- Enter and Space activate triggers through native button behavior.
-- Arrow Up/Down work in vertical orientation. Horizontal Arrow Left/Right navigation flips in RTL. Home and End focus the first or last enabled trigger.
-- Open and close transitions honor prefers-reduced-motion.
-- Root-level and item-level disabled states are supported.
-
-## Run locally
-
-Use Node.js 20 or later, then run:
+Use Node.js 20 or later:
 
 ~~~sh
 cd faq-accordion-react
@@ -97,14 +31,116 @@ npm install
 npm run dev
 ~~~
 
-Vite prints a local URL for the documentation site. The live GitHub Pages version remains no-build and loads React from an import map.
+Vite prints a local development URL. The static GitHub Pages playground itself remains browser-native and loads React through an import map.
 
 ## Quality commands
 
 ~~~sh
 npm run typecheck
 npm test
+npm run lint
 npm run build
+npm run storybook
 ~~~
 
-The tests use React Testing Library, Vitest, and jest-axe. The package name shown in the installation panel is illustrative and has not been published to npm.
+Build the Storybook site with npm run build-storybook.
+
+## Data-driven convenience API
+
+~~~tsx
+import { Accordion } from "./src/accordion";
+import "./src/accordion/accordion.css";
+
+const questions = [
+  {
+    value: "virtual-dom",
+    title: "What is the Virtual DOM?",
+    content: "The Virtual DOM is an in-memory representation of the UI.",
+  },
+  {
+    value: "props-state",
+    title: "How do props differ from state?",
+    content: "Props are inputs; state is data managed by a component.",
+  },
+];
+
+export function Questions() {
+  return (
+    <Accordion
+      items={questions}
+      type="single"
+      variant="filled"
+      size="md"
+      icon="caret"
+      iconPosition="end"
+      headingLevel="h3"
+      collapsible
+      animated
+      defaultOpenFirst
+    />
+  );
+}
+~~~
+
+The convenience API accepts an array of objects containing value, title, content, and optional disabled fields, then renders the compound parts internally.
+
+## Compound API
+
+~~~tsx
+<Accordion.Root type="multiple" defaultValue={["profile", "privacy"]} variant="card">
+  <Accordion.Item value="profile">
+    <Accordion.Header level="h3">
+      <Accordion.Trigger>Profile settings</Accordion.Trigger>
+    </Accordion.Header>
+    <Accordion.Content>Update profile preferences here.</Accordion.Content>
+  </Accordion.Item>
+  <Accordion.Item value="privacy" disabled>
+    <Accordion.Header>
+      <Accordion.Trigger>Privacy settings</Accordion.Trigger>
+    </Accordion.Header>
+    <Accordion.Content>Review your privacy settings.</Accordion.Content>
+  </Accordion.Item>
+</Accordion.Root>
+~~~
+
+### Root props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| type | single or multiple | required | Choose one active item or allow multiple open items. |
+| value | string or string array | — | Controlled open value(s). |
+| defaultValue | string or string array | — | Initial value for uncontrolled state. |
+| onValueChange | callback | — | Receives the changed single value or multiple value array. A collapsed single item reports undefined. |
+| collapsible | boolean | false | Allows the active item to close in single mode. |
+| disabled | boolean | false | Disables all triggers. |
+| variant | filled, outlined, ghost, or card | filled | Selects the surface treatment. |
+| size | sm, md, or lg | md | Controls spacing and type size. |
+| icon | preset, ReactNode, or render function | caret | Sets the trigger icon. Presets: caret, chevron, plus, arrow. |
+| iconPosition | start or end | end | Positions the icon in the text direction. |
+| headingLevel | h2 through h6 | h3 | Sets the semantic heading element. |
+| dir | ltr or rtl | ltr | Sets text direction and horizontal arrow-key direction. |
+| orientation | vertical or horizontal | vertical | Selects keyboard navigation orientation. |
+| animated | boolean | true | Enables open/close transitions; reduced-motion settings take precedence. |
+| defaultOpenFirst | boolean | false | Opens the first item by default when no default value is set. |
+| bordered | boolean | false | Legacy alias for the outlined variant. |
+
+The previous variant values default and bordered remain supported as deprecated aliases for the filled and outlined variants.
+
+### Item, Header, Trigger, and Content props
+
+- Accordion.Item: required value, optional disabled, native div attributes and forwarded ref.
+- Accordion.Header: optional level override (h2 through h6), native heading attributes and forwarded ref.
+- Accordion.Trigger: accepts icon, iconPosition, asChild, native button attributes and forwarded ref. A custom icon render function receives open, disabled, and direction.
+- Accordion.Content: native div attributes and forwarded ref. The panel is connected to its trigger with role=region and aria-labelledby.
+
+## Accessibility
+
+- Trigger buttons are contained in the chosen heading element and expose aria-expanded and aria-controls.
+- Answer panels use role=region and aria-labelledby, and closed content is inert and hidden from assistive technology.
+- Native buttons provide Enter/Space activation. Arrow Up/Down (vertical), RTL-aware Arrow Left/Right (horizontal), Home, and End move focus between enabled triggers.
+- Visible focus styling, disabled states, and prefers-reduced-motion support are included.
+- The library uses useId for stable trigger/content relationships and forwards refs and native element props.
+
+## Compatibility
+
+The previous compound API remains available. Existing Accordion.Item / Accordion.Trigger / Accordion.Content usage still works: Trigger creates the default heading wrapper if it is not already inside Accordion.Header.
