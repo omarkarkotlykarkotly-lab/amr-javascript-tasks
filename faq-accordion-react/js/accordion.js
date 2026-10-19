@@ -83,6 +83,7 @@ export class Accordion {
     this.element = element;
     this.options = {
       type: "single",
+      disabled: false,
       collapsible: false,
       variant: "filled",
       size: "md",
@@ -122,10 +123,9 @@ export class Accordion {
   }
 
   isItemDisabled(item) {
-    return this.element.hasAttribute("data-disabled") ||
-      item.dataset.disabled === "true" ||
-      item.hasAttribute("disabled") ||
-      Boolean(item.querySelector("[data-accordion-trigger]")?.disabled);
+    return this.options.disabled === true ||
+      item.dataset.accordionItemDisabled === "true" ||
+      item.hasAttribute("disabled");
   }
 
   getItem(index) {
@@ -134,6 +134,10 @@ export class Accordion {
 
   ensureItemStructure(item, index) {
     item.classList.add("accordion__item");
+    if (!Object.hasOwn(item.dataset, "accordionItemDisabled")) {
+      const authoredTrigger = item.querySelector("[data-accordion-trigger], .accordion__trigger, button");
+      item.dataset.accordionItemDisabled = String(item.dataset.disabled === "true" || item.hasAttribute("disabled") || authoredTrigger?.hasAttribute("disabled") === true);
+    }
 
     let trigger = item.querySelector("[data-accordion-trigger], .accordion__trigger, button");
     let panel = item.querySelector("[data-accordion-panel], .accordion__panel");
@@ -239,6 +243,7 @@ export class Accordion {
     this.element.dataset.size = this.options.size;
     this.element.dataset.iconPosition = this.options.iconPosition;
     this.element.dataset.animated = String(this.options.animated);
+    this.element.toggleAttribute("data-disabled", this.options.disabled === true);
     this.element.dir = this.options.dir;
 
     this.items = this.getItems().map((item, index) => this.ensureItemStructure(item, index));
