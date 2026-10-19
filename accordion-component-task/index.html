@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="مكوّن Accordion متاح للجميع (Accessible) للأسئلة الشائعة، مبني بـ HTML و CSS و JavaScript فقط.">
+  <meta name="color-scheme" content="light dark">
+  <title>الأسئلة الشائعة</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="faq">
+    <header class="faq__header">
+      <h1 class="faq__title">الأسئلة الشائعة</h1>
+      <p class="faq__lead">إجابات سريعة عن أكثر ما يسأل عنه عملاؤنا.</p>
+    </header>
+
+    <!-- data-multiple="true" يسمح بفتح أكثر من عنصر في نفس الوقت -->
+    <div class="accordion" data-accordion>
+
+      <div class="accordion__item">
+        <h2 class="accordion__heading">
+          <button class="accordion__trigger" type="button"
+                  id="faq-trigger-1" aria-expanded="true" aria-controls="faq-panel-1">
+            <span>كم يستغرق وصول الطلب؟</span>
+            <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </h2>
+        <div class="accordion__panel" id="faq-panel-1" role="region" aria-labelledby="faq-trigger-1">
+          <div class="accordion__content">
+            <p>عادةً ما يستغرق الشحن بين 3 و7 أيام عمل حسب موقعك الجغرافي.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion__item">
+        <h2 class="accordion__heading">
+          <button class="accordion__trigger" type="button"
+                  id="faq-trigger-2" aria-expanded="false" aria-controls="faq-panel-2">
+            <span>هل يمكنني تتبع طلبي؟</span>
+            <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </h2>
+        <div class="accordion__panel" id="faq-panel-2" role="region" aria-labelledby="faq-trigger-2" inert>
+          <div class="accordion__content">
+            <p>نعم، بعد شحن الطلب ستصلك رسالة تحتوي على رقم التتبع.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion__item">
+        <h2 class="accordion__heading">
+          <button class="accordion__trigger" type="button"
+                  id="faq-trigger-3" aria-expanded="false" aria-controls="faq-panel-3">
+            <span>ما طرق الدفع المتاحة؟</span>
+            <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </h2>
+        <div class="accordion__panel" id="faq-panel-3" role="region" aria-labelledby="faq-trigger-3" inert>
+          <div class="accordion__content">
+            <p>نقبل الدفع عبر البطاقات البنكية والمحافظ الإلكترونية، أو الدفع عند الاستلام (إن كان متاحًا في منطقتك).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion__item">
+        <h2 class="accordion__heading">
+          <button class="accordion__trigger" type="button"
+                  id="faq-trigger-4" aria-expanded="false" aria-controls="faq-panel-4">
+            <span>هل يمكنني إرجاع المنتج؟</span>
+            <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </h2>
+        <div class="accordion__panel" id="faq-panel-4" role="region" aria-labelledby="faq-trigger-4" inert>
+          <div class="accordion__content">
+            <p>نعم، يمكنك إرجاع المنتج خلال 14 يومًا من تاريخ الاستلام بشرط أن يكون بحالته الأصلية.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</body>
+</html>
