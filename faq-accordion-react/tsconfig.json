@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "jsx": "react-jsx",
@@ -11,8 +15,11 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "types": ["vitest/globals", "node"]
+    "noEmit": true
   },
-  "include": ["src/accordion/**/*.ts", "src/accordion/**/*.tsx", "vite.config.ts"]
+  "include": [
+    "src/accordion/**/*.ts",
+    "src/accordion/**/*.tsx",
+    "vite.config.ts"
+  ]
 }
