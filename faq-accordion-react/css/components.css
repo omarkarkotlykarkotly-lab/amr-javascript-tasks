@@ -265,3 +265,9 @@ html[data-theme="light"] .code-toolbar { background: #edf0fa; }
   .usage-heading-row h2 { font-size: 15px; }
   .usage-card { margin-top: 22px; }
 }
+
+.clear-search[hidden],
+.drawer-backdrop[hidden],
+.code-body[hidden],
+.question-list[hidden],
+.empty-state[hidden] { display: none; }
