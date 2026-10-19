@@ -421,6 +421,7 @@ clearSearchButton.addEventListener("click", () => {
   searchInput.focus();
 });
 emptyResetButton.addEventListener("click", () => {
+  onSearch.cancel();
   searchInput.value = "";
   searchQuery = "";
   renderQuestionList();
@@ -506,6 +507,7 @@ function init() {
   settings.count = Number(controls.count.value);
   applyTheme(root.dataset.theme === "light" ? "light" : "dark", false);
   setDrawerOpen(false);
+  setSidebarCollapsed(false);
   renderQuestionList();
 }
 
