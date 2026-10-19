@@ -34,10 +34,10 @@ export const SingleCollapsible: Story = {
   ),
 };
 
-export const MultipleFilledLarge: Story = {
+export const MultipleCardLarge: Story = {
   render: () => (
     <div style={{ width: 520, maxWidth: "90vw" }}>
-      <Accordion.Root type="multiple" defaultValue={["profile", "notifications"]} variant="filled" size="lg">
+      <Accordion.Root type="multiple" defaultValue={["profile", "notifications"]} variant="card" size="lg">
         <Accordion.Item value="profile">
           <Accordion.Trigger>Profile settings</Accordion.Trigger>
           <Accordion.Content><p>Manage your profile.</p></Accordion.Content>
