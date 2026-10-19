@@ -1,3 +1,4 @@
+/* Reusable Accordion structure, variants, states, and panel transitions. */
 .accordion { display: grid; gap: 12px; width: 100%; }
 .accordion__item {
   min-width: 0;
