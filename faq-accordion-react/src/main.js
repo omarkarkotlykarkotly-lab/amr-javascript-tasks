@@ -35,11 +35,11 @@ const FAQ = [
 ];
 
 const SNIPPETS = {
-  single: 'import { Accordion } from \"@amr/accordion\";\\n\\n<Accordion.Root type=\"single\" collapsible>\\n  <Accordion.Item value=\"account\">\\n    <Accordion.Trigger>Account settings</Accordion.Trigger>\\n    <Accordion.Content>Manage your account details.</Accordion.Content>\\n  </Accordion.Item>\\n</Accordion.Root>',
-  multiple: 'import { Accordion } from \"@amr/accordion\";\\n\\n<Accordion.Root type=\"multiple\" defaultValue={[\"profile\"]}>\\n  <Accordion.Item value=\"profile\">\\n    <Accordion.Trigger>Profile</Accordion.Trigger>\\n    <Accordion.Content>Your profile settings.</Accordion.Content>\\n  </Accordion.Item>\\n</Accordion.Root>',
-  controlled: 'const [value, setValue] = useState(\"overview\");\\n\\n<Accordion.Root type=\"single\" value={value}\\n  onValueChange={setValue} collapsible>\\n  {/* Accordion.Item children */}\\n</Accordion.Root>',
-  custom: '<Accordion.Trigger icon={({ open }) => (\\n  <span>{open ? \"−\" : \"+\"}</span>\\n)}>\\n  Custom trigger\\n</Accordion.Trigger>',
-  theme: '<Accordion.Root type=\"multiple\"\\n  variant=\"filled\" size=\"lg\" dir=\"ltr\">\\n  {/* Accessible accordion items */}\\n</Accordion.Root>'
+  single: 'import { Accordion } from \"@amr/accordion\";\n\n<Accordion.Root type=\"single\" collapsible>\n  <Accordion.Item value=\"account\">\n    <Accordion.Trigger>Account settings</Accordion.Trigger>\n    <Accordion.Content>Manage your account details.</Accordion.Content>\n  </Accordion.Item>\n</Accordion.Root>',
+  multiple: 'import { Accordion } from \"@amr/accordion\";\n\n<Accordion.Root type=\"multiple\" defaultValue={[\"profile\"]}>\n  <Accordion.Item value=\"profile\">\n    <Accordion.Trigger>Profile</Accordion.Trigger>\n    <Accordion.Content>Your profile settings.</Accordion.Content>\n  </Accordion.Item>\n</Accordion.Root>',
+  controlled: 'const [value, setValue] = useState(\"overview\");\n\n<Accordion.Root type=\"single\" value={value}\n  onValueChange={setValue} collapsible>\n  {/* Accordion.Item children */}\n</Accordion.Root>',
+  custom: '<Accordion.Trigger icon={({ open }) => (\n  <span>{open ? \"−\" : \"+\"}</span>\n)}>\n  Custom trigger\n</Accordion.Trigger>',
+  theme: '<Accordion.Root type=\"multiple\"\n  variant=\"filled\" size=\"lg\" dir=\"ltr\">\n  {/* Accessible accordion items */}\n</Accordion.Root>'
 };
 const INSTALL = {
   npm: "npm install @amr/accordion",
@@ -47,7 +47,7 @@ const INSTALL = {
   yarn: "yarn add @amr/accordion"
 };
 
-function DemoAccordion({ mode = "single", collapsible = true, disabled = false, variant = "default", size = "md", customIcon = false, rtl = false, initialOpen = [], compact = false }) {
+function DemoAccordion({ mode = "single", collapsible = true, disabled = false, disabledItem = null, variant = "default", size = "md", customIcon = false, rtl = false, initialOpen = [], compact = false }) {
   const [open, setOpen] = useState(() => new Set(initialOpen));
   const items = [
     { value: "overview", title: "What is the Accordion component?", answer: "A flexible, accessible disclosure pattern for revealing related content without leaving the current page." },
@@ -68,7 +68,7 @@ function DemoAccordion({ mode = "single", collapsible = true, disabled = false, 
   return h("div", { className: "demo-accordion " + (compact ? "is-compact" : ""), dir: rtl ? "rtl" : "ltr", "data-variant": variant, "data-size": size, "data-disabled": disabled ? "true" : undefined },
     items.map((item, index) => {
       const isOpen = open.has(item.value);
-      const itemDisabled = disabled || (mode === "multiple" && item.value === "custom" && !compact);
+      const itemDisabled = disabled || item.value === disabledItem;
       return h("article", { key: item.value, className: "demo-item " + (isOpen ? "is-open" : ""), "data-state": isOpen ? "open" : "closed" },
         h("h4", { className: "demo-heading" },
           h("button", { type: "button", className: "demo-trigger", disabled: itemDisabled, "aria-expanded": isOpen, onClick: () => toggle(item.value) },
@@ -217,7 +217,7 @@ function App() {
           h("article", { className: "example-card" }, h("div", { className: "example-head" }, h("span", { className: "example-number" }, "01"), h("div", null, h("h3", null, "Single"), h("p", null, "Only one item opens at once.")), h("span", { className: "type-badge" }, "type=single")), h(DemoAccordion, { mode: "single", collapsible: false, initialOpen: ["overview"], compact: true }), h(CodePanel, { label: "single.tsx", code: SNIPPETS.single })),
           h("article", { className: "example-card" }, h("div", { className: "example-head" }, h("span", { className: "example-number" }, "02"), h("div", null, h("h3", null, "Multiple"), h("p", null, "Keep several answers expanded.")), h("span", { className: "type-badge" }, "type=multiple")), h(DemoAccordion, { mode: "multiple", initialOpen: ["overview", "keyboard"], compact: true }), h(CodePanel, { label: "multiple.tsx", code: SNIPPETS.multiple })),
           h("article", { className: "example-card" }, h("div", { className: "example-head" }, h("span", { className: "example-number" }, "03"), h("div", null, h("h3", null, "Collapsible"), h("p", null, "Close the last open item.")), h("span", { className: "type-badge" }, "collapsible")), h(DemoAccordion, { mode: "single", collapsible: true, initialOpen: ["overview"], compact: true }), h(CodePanel, { label: "collapsible.tsx", code: SNIPPETS.single })),
-          h("article", { className: "example-card" }, h("div", { className: "example-head" }, h("span", { className: "example-number" }, "04"), h("div", null, h("h3", null, "Disabled"), h("p", null, "Disable a root or one item.")), h("span", { className: "type-badge" }, "disabled")), h(DemoAccordion, { mode: "multiple", disabled: false, initialOpen: ["overview"], compact: true }), h("p", { className: "example-note" }, h(Icon, { name: "check", size: 14 }), "The third item is disabled in this example.")),
+          h("article", { className: "example-card" }, h("div", { className: "example-head" }, h("span", { className: "example-number" }, "04"), h("div", null, h("h3", null, "Disabled"), h("p", null, "Disable a root or one item.")), h("span", { className: "type-badge" }, "disabled")), h(DemoAccordion, { mode: "multiple", disabledItem: "custom", initialOpen: ["overview"], compact: true }), h("p", { className: "example-note" }, h(Icon, { name: "check", size: 14 }), "The third item is disabled in this example.")),
           h("article", { className: "example-card" }, h("div", { className: "example-head" }, h("span", { className: "example-number" }, "05"), h("div", null, h("h3", null, "Variants & sizes"), h("p", null, "Tune surfaces and density.")), h("span", { className: "type-badge" }, "themeable")), h(DemoAccordion, { mode: "single", variant: "filled", size: "sm", initialOpen: ["overview"], compact: true }), h("p", { className: "example-note" }, h(Icon, { name: "palette", size: 14 }), "Try the theming playground below.")),
           h("article", { className: "example-card" }, h("div", { className: "example-head" }, h("span", { className: "example-number" }, "06"), h("div", null, h("h3", null, "Custom icons"), h("p", null, "Bring your own icon slot.")), h("span", { className: "type-badge" }, "icon")), h(DemoAccordion, { mode: "single", customIcon: true, initialOpen: ["overview"], compact: true }), h(CodePanel, { label: "custom-icon.tsx", code: SNIPPETS.custom }))
         )
@@ -281,9 +281,9 @@ function App() {
             h("div", { className: "install-command" }, h("span", { className: "terminal-prompt" }, "$"), h("code", null, INSTALL[installTab]), h("button", { type: "button", className: "icon-button copy-install", onClick: () => copyText(INSTALL[installTab]), "aria-label": "Copy install command" }, h(Icon, { name: copiedInstall ? "check" : "copy", size: 16 }))),
             h("div", { className: "install-divider" }),
             h("div", { className: "quickstart-title" }, h("span", null, "01"), h("strong", null, "Import the component")),
-            h("pre", { className: "quickstart-code" }, h("code", null, 'import { Accordion } from \"@amr/accordion\";\\nimport \"@amr/accordion/styles.css\";')),
+            h("pre", { className: "quickstart-code" }, h("code", null, 'import { Accordion } from \"@amr/accordion\";\nimport \"@amr/accordion/styles.css\";')),
             h("div", { className: "quickstart-title" }, h("span", null, "02"), h("strong", null, "Compose your sections")),
-            h("pre", { className: "quickstart-code" }, h("code", null, ' <Accordion.Root type=\"single\" collapsible>\\n  <Accordion.Item value=\"details\">\\n    <Accordion.Trigger>Details</Accordion.Trigger>\\n    <Accordion.Content>More information.</Accordion.Content>\\n  </Accordion.Item>\\n</Accordion.Root>')),
+            h("pre", { className: "quickstart-code" }, h("code", null, ' <Accordion.Root type=\"single\" collapsible>\n  <Accordion.Item value=\"details\">\n    <Accordion.Trigger>Details</Accordion.Trigger>\n    <Accordion.Content>More information.</Accordion.Content>\n  </Accordion.Item>\n</Accordion.Root>')),
             h("p", { className: "install-disclaimer" }, "Package name and install command are illustrative until this project is published to a package registry.")
           )
         )
