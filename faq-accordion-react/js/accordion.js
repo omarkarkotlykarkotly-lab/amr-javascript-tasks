@@ -40,7 +40,7 @@ function readDataOptions(element) {
     headingLevel: data.headingLevel,
     animated: data.animated,
     defaultOpen: data.defaultOpen,
-    dir: data.dir
+    dir: data.dir || element.getAttribute("dir") || "ltr"
   };
 }
 
