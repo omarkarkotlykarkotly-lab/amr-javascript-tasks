@@ -1,146 +1,146 @@
-# Accord UI — React Accordion Playground
+# Accord UI — Vanilla Accordion Playground
 
-Accord UI is an accessible, customizable React Accordion component library with a live configuration playground. The repository includes a no-build browser demo for GitHub Pages and a strict TypeScript implementation for app integration.
+A responsive component playground and reusable Accordion class built with semantic HTML, modular CSS, and native JavaScript ES modules. The site has no framework, no external JavaScript dependency, and no build step.
 
-## Explore the playground
-
-Open the live playground at:
+## Live demo
 
 https://omarkarkotlykarkotly-lab.github.io/amr-javascript-tasks/faq-accordion-react/
 
-Change the style, size, icon, heading level, interaction type, animation, disabled state, and text direction. The React interview question list, live status rings, and generated JSX update as you change controls.
-
 ## Project structure
 
-- index.html, styles.css, and src/main.js — interactive three-column playground for GitHub Pages.
-- src/playground-utils.js and src/playground-utils.test.js — tested filtering, generated JSX, and clipboard helpers.
-- src/accordion/Accordion.tsx — compound component implementation and data-driven convenience component.
-- src/accordion/accordion.css — responsive styles, variants, icon states, RTL support, and reduced-motion behavior.
-- src/accordion/types.ts and src/accordion/index.ts — exported props, values, and public types.
-- src/accordion/Accordion.test.tsx — React Testing Library and jest-axe coverage.
-- src/accordion/Accordion.stories.tsx and .storybook/ — Storybook examples.
-- package.json, vite.config.ts, tsconfig files, and eslint.config.js — local development, builds, linting, and type checking.
+- index.html — semantic page shell, accessible controls, metadata, theme pre-paint script, and module entry point.
+- css/tokens.css — dark and light design tokens, radii, shadows, and motion timings.
+- css/base.css — reset, global type, focus styles, hidden-state utilities, and reduced motion.
+- css/layout.css — rounded app window, three-column grid, sidebar drawer, and responsive breakpoints.
+- css/accordion.css — reusable Accordion variants, sizes, states, and open/close animation.
+- css/components.css — sidebar controls, hero, search, live status rings, code panel, and utility components.
+- js/accordion.js — framework-free Accordion class, data-attribute auto-init, keyboard support, public methods, and CustomEvents.
+- js/data.js — React interview questions and default playground configuration.
+- js/utils.js — filtering, debouncing, safe text highlighting, clipboard fallback, and numeric clamping.
+- js/playground.js — page controls, dynamic questions, live metrics, theme toggle, and generated code.
 
-## Install and run locally
+## Run locally
 
-Use Node.js 20 or later:
-
-~~~sh
-cd faq-accordion-react
-npm install
-npm run dev
-~~~
-
-Vite prints a local development URL. The static GitHub Pages playground itself remains browser-native and loads React through an import map.
-
-## Quality commands
+Open index.html directly in a modern browser. For the most reliable ES module behavior, run a one-line static server from this folder:
 
 ~~~sh
-npm run typecheck
-npm test
-npm run lint
-npm run build
-npm run storybook
+python -m http.server 8000
 ~~~
 
-Build the Storybook site with npm run build-storybook.
+Then open http://localhost:8000/faq-accordion-react/ if you started the server from the repository root, or http://localhost:8000/ if you started it from this folder.
 
-## Data-driven convenience API
+Google Fonts are used for typography. If fonts cannot be reached, the page falls back to system sans-serif and monospace fonts. No JavaScript library, package install, compilation, or bundler is required.
 
-~~~tsx
-import { Accordion } from "./src/accordion";
-import "./src/accordion/accordion.css";
+## Reusable Accordion class
 
-const questions = [
-  {
-    value: "virtual-dom",
-    title: "What is the Virtual DOM?",
-    content: "The Virtual DOM is an in-memory representation of the UI.",
-  },
-  {
-    value: "props-state",
-    title: "How do props differ from state?",
-    content: "Props are inputs; state is data managed by a component.",
-  },
-];
+Import the class into any page:
 
-export function Questions() {
-  return (
-    <Accordion
-      items={questions}
-      type="single"
-      variant="filled"
-      size="md"
-      icon="caret"
-      iconPosition="end"
-      headingLevel="h3"
-      collapsible
-      animated
-      defaultOpenFirst
-    />
-  );
-}
+~~~js
+import { Accordion } from "./js/accordion.js";
+
+const accordion = new Accordion(document.querySelector("#faq"), {
+  type: "single",
+  collapsible: true,
+  variant: "filled",
+  size: "md",
+  icon: "caret",
+  iconPosition: "end",
+  headingLevel: "h3",
+  animated: true,
+  defaultOpen: [0],
+  dir: "ltr"
+});
+
+accordion.open(1);
+accordion.close(1);
+accordion.toggle(2);
+accordion.openAll();
+accordion.closeAll();
+accordion.update({ variant: "card", size: "lg" });
 ~~~
 
-The convenience API accepts an array of objects containing value, title, content, and optional disabled fields, then renders the compound parts internally.
+The target element contains one child with data-accordion-item per question. Each item can have a button marked data-accordion-trigger and a panel marked data-accordion-panel. The class adds missing ARIA relationships and heading wrappers when needed.
 
-## Compound API
-
-~~~tsx
-<Accordion.Root type="multiple" defaultValue={["profile", "privacy"]} variant="card">
-  <Accordion.Item value="profile">
-    <Accordion.Header level="h3">
-      <Accordion.Trigger>Profile settings</Accordion.Trigger>
-    </Accordion.Header>
-    <Accordion.Content>Update profile preferences here.</Accordion.Content>
-  </Accordion.Item>
-  <Accordion.Item value="privacy" disabled>
-    <Accordion.Header>
-      <Accordion.Trigger>Privacy settings</Accordion.Trigger>
-    </Accordion.Header>
-    <Accordion.Content>Review your privacy settings.</Accordion.Content>
-  </Accordion.Item>
-</Accordion.Root>
+~~~html
+<div id="faq" data-accordion data-type="single" data-collapsible="true"
+     data-variant="filled" data-size="md" data-default-open="0">
+  <div data-accordion-item data-value="profile">
+    <h3><button type="button" data-accordion-trigger>Profile settings</button></h3>
+    <div data-accordion-panel>
+      <div class="accordion__panel-inner">
+        <p>Update your profile preferences here.</p>
+      </div>
+    </div>
+  </div>
+</div>
 ~~~
 
-### Root props
+Supported options:
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| type | single or multiple | required | Choose one active item or allow multiple open items. |
-| value | string or string array | — | Controlled open value(s). |
-| defaultValue | string or string array | — | Initial value for uncontrolled state. |
-| onValueChange | callback | — | Receives the changed single value or multiple value array. A collapsed single item reports undefined. |
-| collapsible | boolean | false | Allows the active item to close in single mode. |
-| disabled | boolean | false | Disables all triggers. |
-| variant | filled, outlined, ghost, or card | filled | Selects the surface treatment. |
-| size | sm, md, or lg | md | Controls spacing and type size. |
-| icon | preset, ReactNode, or render function | caret | Sets the trigger icon. Presets: caret, chevron, plus, arrow. |
-| iconPosition | start or end | end | Positions the icon in the text direction. |
-| headingLevel | h2 through h6 | h3 | Sets the semantic heading element. |
-| dir | ltr or rtl | ltr | Sets text direction and horizontal arrow-key direction. |
-| orientation | vertical or horizontal | vertical | Selects keyboard navigation orientation. |
-| animated | boolean | true | Enables open/close transitions; reduced-motion settings take precedence. |
-| defaultOpenFirst | boolean | false | Opens the first item by default when no default value is set. |
-| bordered | boolean | false | Legacy alias for the outlined variant. |
+| Option | Values | Default |
+| --- | --- | --- |
+| type | single, multiple | single |
+| collapsible | boolean | false |
+| variant | filled, outlined, ghost, card | filled |
+| size | sm, md, lg | md |
+| icon | caret, chevron, plus, arrow | caret |
+| iconPosition | start, end | end |
+| headingLevel | h2, h3, h4, h5, h6 | h3 |
+| animated | boolean | true |
+| defaultOpen | array of zero-based item indexes, or a comma-separated data attribute | empty |
+| dir | ltr, rtl | inherited or ltr |
+| disabled | boolean root option; item-level data-disabled or disabled attribute | false |
 
-The previous variant values default and bordered remain supported as deprecated aliases for the filled and outlined variants.
+The class exposes open(index), close(index), toggle(index), openAll(), closeAll(), update(options), and destroy(). Indexes are zero-based. In single mode, openAll opens the first enabled item; toggle will not close the last open item unless collapsible is true. Explicit close(index) and closeAll() always close the requested items.
 
-### Item, Header, Trigger, and Content props
+### Events
 
-- Accordion.Item: required value, optional disabled, native div attributes and forwarded ref.
-- Accordion.Header: optional level override (h2 through h6), native heading attributes and forwarded ref.
-- Accordion.Trigger: accepts icon, iconPosition, asChild, native button attributes and forwarded ref. A custom icon render function receives open, disabled, and direction.
-- Accordion.Content: native div attributes and forwarded ref. The panel is connected to its trigger with role=region and aria-labelledby.
+The Accordion root emits bubbling CustomEvents:
+
+- accordion:open — an item has opened.
+- accordion:close — an item has closed.
+- accordion:change — open state changed.
+
+Each event detail includes the changed reason, item index when applicable, openIndices, corresponding values, and selection type.
+
+~~~js
+const faq = document.querySelector("#faq");
+
+faq.addEventListener("accordion:change", (event) => {
+  console.log(event.detail.openIndices);
+});
+~~~
+
+Any markup marked with data-accordion is initialized automatically. Add data-type, data-variant, data-size, data-icon, data-icon-position, data-heading-level, data-collapsible, data-animated, data-default-open, and dir to configure it. Use data-accordion-manual on a root when creating it manually.
 
 ## Accessibility
 
-- Trigger buttons are contained in the chosen heading element and expose aria-expanded and aria-controls.
-- Answer panels use role=region and aria-labelledby, and closed content is inert and hidden from assistive technology.
-- Native buttons provide Enter/Space activation. Arrow Up/Down (vertical), RTL-aware Arrow Left/Right (horizontal), Home, and End move focus between enabled triggers.
-- Visible focus styling, disabled states, and prefers-reduced-motion support are included.
-- The library uses useId for stable trigger/content relationships and forwards refs and native element props.
+- Triggers are native buttons inside a configurable heading element.
+- Triggers expose aria-expanded and aria-controls; panels use role=region and aria-labelledby.
+- Closed panels are hidden and inert. Closing panels are hidden after their transition completes.
+- Enter and Space use native button activation. Arrow Up/Down, Home, and End move focus between enabled triggers.
+- Disabled items are skipped by keyboard navigation.
+- Search uses a polite live result count and highlights matching text through text nodes and mark elements.
+- Visible focus rings, touch-sized controls, light and dark themes, and reduced-motion support are included.
 
-## Compatibility
+## Manual verification checklist
 
-The previous compound API remains available. Existing Accordion.Item / Accordion.Trigger / Accordion.Content usage still works: Trigger creates the default heading wrapper if it is not already inside Accordion.Header.
+- [ ] Use Tab, Shift+Tab, Enter, and Space to move through and activate question triggers.
+- [ ] Use Arrow Up/Down, Home, and End; confirm disabled items are skipped.
+- [ ] Check each panel’s accessible name and expanded state in a screen reader.
+- [ ] Search a word in a question and a different word in an answer; confirm highlighted matches and live counts.
+- [ ] Switch between single and multiple selection, and test collapsible on and off.
+- [ ] Change style, size, icon shape, icon position, and heading level.
+- [ ] Enable RTL and confirm alignment, icon placement, and keyboard flow remain usable.
+- [ ] Turn on the operating system’s reduced-motion setting and confirm transitions are suppressed.
+- [ ] Switch light/dark themes, refresh, and confirm the chosen theme persists without a flash.
+- [ ] At mobile width, open the drawer, tab through its controls, close it with Escape, and check for horizontal page scrolling.
+- [ ] Copy the generated code and verify the status changes to Copied.
+
+## Design tokens
+
+The initial palette uses a deep navy outer canvas (#0A1330), navy window/sidebar surfaces (#0E1A3C and #0F1C3F), raised blue item surfaces (#1B3366), a lavender-blue accent (#A9BEFF), and pink open-state border (#C77DBA). The open item surface is #2B2755. Light mode switches to cool white and gray surfaces with deeper, readable text tones. Spacing uses a 4/8px rhythm, with 14px controls, 16px accordion rows, and 28px app-window corners.
+
+## Browser support
+
+Use a current browser with ES modules, native inert support, CSS Grid, and CustomEvent. No transpilation is needed. The project uses progressive native HTML controls and SVG icons rather than external icon or UI packages.
