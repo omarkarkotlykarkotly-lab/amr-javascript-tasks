@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   forwardRef,
   useCallback,
@@ -11,15 +11,25 @@ import React, {
   type KeyboardEventHandler,
   type ReactNode,
 } from "react";
-
-export type AccordionType = "single" | "multiple";
-export type AccordionVariant = "default" | "bordered" | "filled" | "ghost";
-export type AccordionSize = "sm" | "md" | "lg";
-export type AccordionDirection = "ltr" | "rtl";
-export type AccordionOrientation = "vertical" | "horizontal";
-export type AccordionValue = string | string[] | undefined;
-export type AccordionIconRenderProps = { open: boolean; disabled: boolean; direction: AccordionDirection };
-export type AccordionIcon = ReactNode | ((state: AccordionIconRenderProps) => ReactNode);
+import type {
+  AccordionDirection,
+  AccordionIcon,
+  AccordionOrientation,
+  AccordionType,
+  AccordionValue,
+  AccordionVariant,
+  AccordionSize,
+} from "./types";
+export type {
+  AccordionDirection,
+  AccordionIcon,
+  AccordionIconRenderProps,
+  AccordionOrientation,
+  AccordionSize,
+  AccordionType,
+  AccordionValue,
+  AccordionVariant,
+} from "./types";
 
 export interface AccordionRootProps extends Omit<HTMLAttributes<HTMLDivElement>, "defaultValue" | "onChange"> {
   type: AccordionType;
@@ -74,7 +84,8 @@ const Root = forwardRef<HTMLDivElement, AccordionRootProps>(function AccordionRo
   const controlled = Object.prototype.hasOwnProperty.call(props, "value");
   const [internalValue, setInternalValue] = useState<string[]>(() => normalizeValue(type, defaultValue));
   const selected = normalizeValue(type, controlled ? value : internalValue);
-  const openValues = useMemo(() => new Set(selected), [selected.join("|")]);
+  const selectedKey = JSON.stringify(selected);
+  const openValues = useMemo(() => new Set(selected), [selectedKey]);
 
   const toggle = useCallback((itemValue: string) => {
     const current = normalizeValue(type, controlled ? value : internalValue);
@@ -137,7 +148,7 @@ const Trigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(function Ac
     onKeyDown?.(event);
     if (event.defaultPrevented) return;
     const rootElement = event.currentTarget.closest<HTMLElement>("[data-accordion-root]");
-    const triggers = Array.from(rootElement?.querySelectorAll<HTMLButtonElement>('[data-accordion-trigger="true"]:not(:disabled)') ?? []);
+    const triggers = Array.from(rootElement?.querySelectorAll<HTMLButtonElement>('[data-accordion-trigger="true"]:not(:disabled)') ?? []).filter((trigger) => trigger.closest("[data-accordion-root]") === rootElement);
     if (!triggers.length) return;
     const currentIndex = triggers.indexOf(event.currentTarget);
     let nextIndex = currentIndex;
