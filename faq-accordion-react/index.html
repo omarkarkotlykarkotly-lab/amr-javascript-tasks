@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0A1330">
-  <meta name="description" content="Explore a reusable, accessible vanilla JavaScript Accordion through an interactive component playground. Tune styles, keyboard behaviour, icons, and copy the generated usage code.">
+  <meta name="description" content="Explore interactive HTML, CSS, and JavaScript lessons in an accessible Accordion playground. Learn each concept with beginner-friendly explanations and code examples.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Accordion Component Library — Interactive Playground">
-  <meta property="og:description" content="A modern, accessible Accordion built with vanilla HTML, CSS, and JavaScript.">
+  <meta property="og:description" content="Learn web development step by step with HTML, CSS, and JavaScript examples inside a modern accessible Accordion.">
   <meta property="og:url" content="https://omarkarkotlykarkotly-lab.github.io/amr-javascript-tasks/faq-accordion-react/">
   <title>Accordion Component Library — Interactive Playground</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%236e67da'/%3E%3Cpath d='m10 15 10 10 10-10' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -67,7 +67,8 @@
                 <select id="questions-count" name="questions-count">
                   <option value="4">4 questions</option>
                   <option value="6">6 questions</option>
-                  <option value="8" selected>8 questions</option>
+                  <option value="8">8 lessons</option>
+                  <option value="10" selected>10 lessons</option>
                 </select>
                 <span class="select-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </span>
@@ -198,29 +199,35 @@
           </span>
           <p class="hero-kicker">INTERACTIVE PLAYGROUND</p>
           <h2 id="hero-title">Explore the Accordion</h2>
-          <p class="hero-description">Search the React questions below, tune the props from the sidebar, and copy the code.</p>
-          <label class="hero-search-label" for="react-question-search">Search React questions</label>
+          <p class="hero-description">Learn core web development concepts, explore working examples, tune the Accordion settings, and copy the generated code.</p>
+          <label class="hero-search-label" for="react-question-search">Search web development lessons</label>
           <div class="hero-search">
             <span class="hero-search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19"><circle cx="10.8" cy="10.8" r="6.8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
-            <input id="react-question-search" type="search" placeholder="Search React concepts" autocomplete="off" aria-describedby="search-help">
+            <input id="react-question-search" type="search" placeholder="Search HTML, CSS, or JavaScript" autocomplete="off" aria-describedby="search-help">
             <button class="clear-search" id="clear-search" type="button" aria-label="Clear search" hidden>
               <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </button>
             <kbd class="search-shortcut" aria-hidden="true">/</kbd>
           </div>
           <p class="sr-only" id="search-help">Press slash to focus search. Press Escape to clear it.</p>
-          <p class="hero-result-count" id="search-result-count" aria-live="polite"><strong>8</strong> results</p>
+          <p class="hero-result-count" id="search-result-count" aria-live="polite"><strong>10</strong> results</p>
         </section>
 
         <section class="questions-card" aria-labelledby="questions-title">
           <div class="questions-card-header">
-            <div><p class="section-kicker">LEARN BY EXAMPLE</p><h2 id="questions-title">React interview questions</h2></div>
+            <div><p class="section-kicker">LEARN BY EXAMPLE</p><h2 id="questions-title">HTML, CSS & JavaScript lessons</h2></div>
             <span class="questions-pill">
               <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 5.5V22M8 7h8M8 11h7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-              <span id="question-count-badge">8 questions</span>
+              <span id="question-count-badge">10 lessons</span>
             </span>
           </div>
-          <div class="question-list" id="question-list" data-accordion data-accordion-manual aria-label="React interview questions"></div>
+          <div class="topic-filters" role="group" aria-label="Filter lessons by language">
+            <button class="topic-filter is-active" type="button" data-category="all" aria-pressed="true">All topics</button>
+            <button class="topic-filter" type="button" data-category="HTML" aria-pressed="false">HTML</button>
+            <button class="topic-filter" type="button" data-category="CSS" aria-pressed="false">CSS</button>
+            <button class="topic-filter" type="button" data-category="JavaScript" aria-pressed="false">JavaScript</button>
+          </div>
+          <div class="question-list" id="question-list" data-accordion data-accordion-manual aria-label="HTML, CSS & JavaScript lessons"></div>
           <div class="empty-state" id="empty-state" hidden>
             <span class="empty-state-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="23" height="23"><circle cx="10.8" cy="10.8" r="6.8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
             <h3>No matching questions</h3>
