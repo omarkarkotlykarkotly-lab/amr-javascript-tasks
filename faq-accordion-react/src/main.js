@@ -304,7 +304,7 @@ function App() {
           ["...button props", "ButtonHTMLAttributes", "—", "Native button attributes, events, and forwarded ref."]
         ] })),
         h("div", { className: "api-block" }, h("div", { className: "api-block-title" }, h("code", null, "Accordion.Content"), h("span", null, "Animated, labelled answer region")), h(PropTable, { rows: [
-          ["forceMount", "boolean", "false", "Keep content mounted while closed."],
+          ["...div props", "HTMLAttributes<HTMLDivElement>", "—", "Native region attributes and forwarded ref."],
           ["...div props", "HTMLAttributes<HTMLDivElement>", "—", "Native region attributes and forwarded ref."]
         ] }))
       ),
