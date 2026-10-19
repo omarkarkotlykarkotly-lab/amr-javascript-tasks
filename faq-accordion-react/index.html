@@ -1,18 +1,23 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0A1330">
-  <meta name="description" content="Interactive playground for an accessible, customizable React Accordion component library. Tune props, explore React interview questions, and copy the usage example.">
+  <meta name="description" content="Explore a reusable, accessible vanilla JavaScript Accordion through an interactive component playground. Tune styles, keyboard behaviour, icons, and copy the generated usage code.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Accordion Component Library — Interactive Playground">
+  <meta property="og:description" content="A modern, accessible Accordion built with vanilla HTML, CSS, and JavaScript.">
+  <meta property="og:url" content="https://omarkarkotlykarkotly-lab.github.io/amr-javascript-tasks/faq-accordion-react/">
   <title>Accordion Component Library — Interactive Playground</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%236e67da'/%3E%3Cpath d='m10 15 10 10 10-10' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <script>
-    (function () {
+    (() => {
       try {
-        var savedTheme = localStorage.getItem("accordion-demo-theme");
-        var preferredTheme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        const savedTheme = localStorage.getItem("accordion-demo-theme");
+        const preferredTheme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
         document.documentElement.dataset.theme = savedTheme === "light" || savedTheme === "dark" ? savedTheme : preferredTheme;
-      } catch (_) {
+      } catch {
         document.documentElement.dataset.theme = "dark";
       }
     })();
@@ -20,20 +25,276 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=5">
-  <script type="importmap">
-    {
-      "imports": {
-        "react": "https://esm.sh/react@19.1.0",
-        "react-dom/client": "https://esm.sh/react-dom@19.1.0/client?external=react"
-      }
-    }
-  </script>
-  <script type="module" src="./src/main.js?v=5"></script>
+  <link rel="stylesheet" href="./css/tokens.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/layout.css">
+  <link rel="stylesheet" href="./css/accordion.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <script type="module" src="./js/playground.js"></script>
 </head>
 <body>
-  <div id="root">
-    <div class="loading-fallback" role="status" aria-live="polite">Loading the component playground…</div>
+  <div class="page-shell">
+    <div class="app-window" id="app-window">
+      <div class="window-chrome" aria-hidden="true">
+        <div class="window-dots"><span></span><span></span><span></span></div>
+        <span class="window-chrome-label">ACCORD UI / COMPONENT PLAYGROUND</span>
+        <span class="window-chrome-version">VANILLA JS</span>
+      </div>
+
+      <button class="drawer-backdrop" id="drawer-backdrop" type="button" aria-label="Close settings panel" tabindex="-1" hidden></button>
+
+      <aside class="sidebar" id="settings-sidebar" aria-label="Accordion configuration">
+        <div class="sidebar-header">
+          <button class="icon-button menu-button" id="sidebar-toggle" type="button" aria-label="Open settings" aria-controls="settings-sidebar" aria-expanded="false">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+          <span class="sidebar-brand">Accordion</span>
+          <button class="icon-button theme-button" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Toggle color theme">
+            <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" hidden><path d="M20.8 13.1A8.6 8.6 0 0 1 10.9 3.2 8.7 8.7 0 1 0 20.8 13.1Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <div class="sidebar-scroll">
+          <section class="sidebar-section" aria-labelledby="display-label">
+            <h2 class="sidebar-section-title" id="display-label">
+              <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 7h9m4 0h3M4 17h3m4 0h9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="15" cy="7" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="17" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+              Display
+            </h2>
+            <label class="select-control" for="questions-count">
+              <span class="control-label">Questions shown</span>
+              <span class="select-wrap">
+                <select id="questions-count" name="questions-count">
+                  <option value="4">4 questions</option>
+                  <option value="6">6 questions</option>
+                  <option value="8" selected>8 questions</option>
+                </select>
+                <span class="select-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              </span>
+            </label>
+            <label class="select-control" for="accordion-variant">
+              <span class="control-label">Style</span>
+              <span class="select-wrap">
+                <select id="accordion-variant" name="accordion-variant">
+                  <option value="filled" selected>Filled</option>
+                  <option value="outlined">Outlined</option>
+                  <option value="ghost">Ghost</option>
+                  <option value="card">Card</option>
+                </select>
+                <span class="select-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              </span>
+            </label>
+            <label class="select-control" for="accordion-size">
+              <span class="control-label">Size</span>
+              <span class="select-wrap">
+                <select id="accordion-size" name="accordion-size">
+                  <option value="sm">Small (sm)</option>
+                  <option value="md" selected>Medium (md)</option>
+                  <option value="lg">Large (lg)</option>
+                </select>
+                <span class="select-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              </span>
+            </label>
+          </section>
+
+          <section class="sidebar-section" aria-labelledby="icons-label">
+            <h2 class="sidebar-section-title" id="icons-label">
+              <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m19 14 1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+              Icons
+            </h2>
+            <label class="select-control" for="icon-shape">
+              <span class="control-label">Icon shape</span>
+              <span class="select-wrap">
+                <select id="icon-shape" name="icon-shape">
+                  <option value="caret" selected>Caret</option>
+                  <option value="chevron">Chevron</option>
+                  <option value="plus">Plus / minus</option>
+                  <option value="arrow">Arrow</option>
+                </select>
+                <span class="select-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              </span>
+            </label>
+            <label class="select-control" for="icon-position">
+              <span class="control-label">Icon position</span>
+              <span class="select-wrap">
+                <select id="icon-position" name="icon-position">
+                  <option value="start">Start</option>
+                  <option value="end" selected>End</option>
+                </select>
+                <span class="select-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              </span>
+            </label>
+            <label class="select-control" for="heading-level">
+              <span class="control-label">Heading level</span>
+              <span class="select-wrap">
+                <select id="heading-level" name="heading-level">
+                  <option value="h2">H2</option>
+                  <option value="h3" selected>H3</option>
+                  <option value="h4">H4</option>
+                  <option value="h5">H5</option>
+                  <option value="h6">H6</option>
+                </select>
+                <span class="select-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              </span>
+            </label>
+          </section>
+
+          <section class="sidebar-section behaviour-section" aria-labelledby="behaviour-label">
+            <h2 class="sidebar-section-title" id="behaviour-label">
+              <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 7h6m4 0h6M4 17h2m4 0h10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="7" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+              Behaviour
+            </h2>
+            <label class="select-control" for="accordion-type">
+              <span class="control-label">Interaction type</span>
+              <span class="select-wrap">
+                <select id="accordion-type" name="accordion-type">
+                  <option value="single" selected>Single</option>
+                  <option value="multiple">Multiple</option>
+                </select>
+                <span class="select-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              </span>
+            </label>
+            <label class="switch-control" for="collapsible-toggle">
+              <span class="switch-copy"><span class="control-label">Collapsible</span><span class="switch-detail">Close the active question</span></span>
+              <input class="switch-input" id="collapsible-toggle" type="checkbox" role="switch" checked>
+            </label>
+            <label class="switch-control" for="animated-toggle">
+              <span class="switch-copy"><span class="control-label">Animated</span><span class="switch-detail">Smooth open and close motion</span></span>
+              <input class="switch-input" id="animated-toggle" type="checkbox" role="switch" checked>
+            </label>
+            <label class="switch-control" for="disabled-toggle">
+              <span class="switch-copy"><span class="control-label">Disabled</span><span class="switch-detail">Disable every question</span></span>
+              <input class="switch-input" id="disabled-toggle" type="checkbox" role="switch">
+            </label>
+            <label class="switch-control" for="rtl-toggle">
+              <span class="switch-copy"><span class="control-label">RTL direction</span><span class="switch-detail">Right-to-left layout</span></span>
+              <input class="switch-input" id="rtl-toggle" type="checkbox" role="switch">
+            </label>
+          </section>
+
+          <div class="sidebar-note">
+            <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            <span>Tune a setting to update the live preview and generated JavaScript.</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-column" id="main-content">
+        <div class="mobile-mainbar">
+          <button class="icon-button mobile-menu-button" id="mobile-menu-toggle" type="button" aria-label="Open settings" aria-controls="settings-sidebar" aria-expanded="false">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+          <span>Accordion Playground</span>
+        </div>
+
+        <div class="page-title-row">
+          <div><p class="page-eyebrow">VANILLA JAVASCRIPT / UI TOOLKIT</p><h1>Component Library</h1></div>
+          <span class="build-pill"><span></span>Live preview</span>
+        </div>
+
+        <section class="hero-card" aria-labelledby="hero-title">
+          <span class="hero-sparkle" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="27" height="27"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m19 14 1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+          </span>
+          <p class="hero-kicker">INTERACTIVE PLAYGROUND</p>
+          <h2 id="hero-title">Explore the Accordion</h2>
+          <p class="hero-description">Search the React questions below, tune the props from the sidebar, and copy the code.</p>
+          <label class="hero-search-label" for="react-question-search">Search React questions</label>
+          <div class="hero-search">
+            <span class="hero-search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19"><circle cx="10.8" cy="10.8" r="6.8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <input id="react-question-search" type="search" placeholder="Search React concepts" autocomplete="off" aria-describedby="search-help">
+            <button class="clear-search" id="clear-search" type="button" aria-label="Clear search" hidden>
+              <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+            <kbd class="search-shortcut" aria-hidden="true">/</kbd>
+          </div>
+          <p class="sr-only" id="search-help">Press slash to focus search. Press Escape to clear it.</p>
+          <p class="hero-result-count" id="search-result-count" aria-live="polite"><strong>8</strong> results</p>
+        </section>
+
+        <section class="questions-card" aria-labelledby="questions-title">
+          <div class="questions-card-header">
+            <div><p class="section-kicker">LEARN BY EXAMPLE</p><h2 id="questions-title">React interview questions</h2></div>
+            <span class="questions-pill">
+              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 5.5V22M8 7h8M8 11h7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              <span id="question-count-badge">8 questions</span>
+            </span>
+          </div>
+          <div class="question-list" id="question-list" data-accordion data-accordion-manual aria-label="React interview questions"></div>
+          <div class="empty-state" id="empty-state" hidden>
+            <span class="empty-state-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="23" height="23"><circle cx="10.8" cy="10.8" r="6.8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <h3>No matching questions</h3>
+            <p>Try another keyword or clear your search to see all React questions.</p>
+            <button class="empty-reset" id="empty-reset" type="button">Clear search</button>
+          </div>
+        </section>
+      </main>
+
+      <aside class="right-column" aria-label="Live status and usage code">
+        <section class="stat-section" aria-labelledby="status-title">
+          <div class="right-section-header">
+            <h2 id="status-title">Live status</h2>
+            <span class="live-indicator"><span></span>Updating</span>
+          </div>
+          <article class="stat-card stat-card-blue">
+            <svg class="progress-ring tone-blue" id="open-ring" viewBox="0 0 100 100" role="img" aria-label="Open items: 13%">
+              <circle class="ring-track" cx="50" cy="50" r="37" fill="none" stroke-width="7"></circle>
+              <circle class="ring-value" cx="50" cy="50" r="37" fill="none" stroke-width="7" stroke-dasharray="232.48" stroke-dashoffset="202.3" transform="rotate(-90 50 50)" stroke-linecap="round"></circle>
+              <text class="ring-label" id="open-ring-label" x="50" y="54" text-anchor="middle">13%</text>
+            </svg>
+            <div class="stat-copy"><h3>Open items</h3><p id="open-item-summary">1 of 8 expanded</p><span class="stat-footnote">Current results</span></div>
+          </article>
+          <article class="stat-card stat-card-pink">
+            <svg class="progress-ring tone-pink" id="match-ring" viewBox="0 0 100 100" role="img" aria-label="Search matches: 100%">
+              <circle class="ring-track" cx="50" cy="50" r="37" fill="none" stroke-width="7"></circle>
+              <circle class="ring-value" cx="50" cy="50" r="37" fill="none" stroke-width="7" stroke-dasharray="232.48" stroke-dashoffset="0" transform="rotate(-90 50 50)" stroke-linecap="round"></circle>
+              <text class="ring-label" id="match-ring-label" x="50" y="54" text-anchor="middle">100%</text>
+            </svg>
+            <div class="stat-copy"><h3>Search matches</h3><p id="match-item-summary">8 of 8 shown</p><span class="stat-footnote" id="match-footnote">All questions visible</span></div>
+          </article>
+        </section>
+
+        <section class="usage-card" aria-labelledby="usage-title">
+          <div class="usage-heading-row"><h2 id="usage-title">Usage</h2><span class="usage-caption">Generated from your settings</span></div>
+          <div class="code-card">
+            <div class="code-toolbar">
+              <div class="code-file">
+                <span class="code-file-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16"><path d="m8 8-4 4 4 4m8-8 4 4-4 4m-3-11-2 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span>accordion.js</span><span class="code-language">JS</span>
+              </div>
+              <div class="code-actions">
+                <button class="copy-button" id="copy-code" type="button" aria-label="Copy generated JavaScript">
+                  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  <span id="copy-label">Copy</span>
+                </button>
+                <button class="code-collapse-button" id="collapse-code" type="button" aria-label="Collapse code panel" aria-expanded="true">
+                  <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="code-body" id="code-body">
+              <pre class="code-lines" id="code-lines" aria-label="Generated Accordion JavaScript" tabindex="0"></pre>
+            </div>
+            <div class="code-footer">
+              <span><svg class="success-icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m8 12 2.5 2.5L16 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Live config</span>
+              <span class="copy-status" id="copy-status" aria-live="polite"></span>
+            </div>
+          </div>
+        </section>
+        <div class="right-note">
+          <span class="right-note-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
+          <p>Every control is connected. Adjust a prop and watch the preview and usage code update instantly.</p>
+        </div>
+      </aside>
+    </div>
+
+    <footer class="page-footnote">
+      <span>ACCORD UI</span>
+      <span>Accessible by design · Built with vanilla JavaScript</span>
+      <a href="https://github.com/omarkarkotlykarkotly-lab/amr-javascript-tasks/tree/main/faq-accordion-react" target="_blank" rel="noreferrer">Source code
+        <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M14 4h6v6M20 4 11 13M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </footer>
   </div>
 </body>
 </html>
