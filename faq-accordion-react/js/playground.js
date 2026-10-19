@@ -496,9 +496,11 @@ window.addEventListener("resize", () => {
     sidebarCollapsed = false;
     if (!drawerOpen) setDrawerOpen(false);
   } else {
-    sidebar.inert = sidebarCollapsed;
-    sidebar.setAttribute("aria-hidden", String(sidebarCollapsed));
     if (drawerOpen) setDrawerOpen(false);
+    sidebar.inert = false;
+    sidebar.removeAttribute("aria-hidden");
+    sidebarToggle.setAttribute("aria-expanded", String(!sidebarCollapsed));
+    sidebarToggle.setAttribute("aria-label", sidebarCollapsed ? "Expand controls" : "Collapse controls");
     drawerBackdrop.hidden = true;
   }
 });
