@@ -1,3 +1,4 @@
+/* Global reset, accessible defaults, typography fallbacks, and reduced motion. */
 * { box-sizing: border-box; }
 html { min-width: 320px; scroll-behavior: smooth; }
 body {
