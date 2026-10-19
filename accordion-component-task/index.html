@@ -1,93 +1,214 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!doctype html>
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="مكوّن Accordion متاح للجميع (Accessible) للأسئلة الشائعة، مبني بـ HTML و CSS و JavaScript فقط.">
-  <meta name="color-scheme" content="light dark">
-  <title>الأسئلة الشائعة</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An accessible, framework-free Accordion component playground. Configure variants, keyboard behavior, icons, and themes in real time.">
+  <meta name="theme-color" content="#0A1330">
+  <meta property="og:title" content="Accordion Component Library — Interactive Playground">
+  <meta property="og:description" content="Explore a reusable vanilla JavaScript Accordion with accessible keyboard navigation and live configuration.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://ogp.me/logo.png">
+  <title>Accordion Component Library — Interactive Playground</title>
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("accordion-playground-theme");
+        var preferred = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        document.documentElement.dataset.theme = saved === "light" || saved === "dark" ? saved : preferred;
+      } catch (error) {
+        document.documentElement.dataset.theme = "dark";
+      }
+    })();
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%236d66dc'/%3E%3Cpath d='m11 16 9 9 9-9' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/tokens.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/layout.css">
+  <link rel="stylesheet" href="./css/accordion.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <script type="module" src="./js/playground.js"></script>
 </head>
 <body>
-  <main class="faq">
-    <header class="faq__header">
-      <h1 class="faq__title">الأسئلة الشائعة</h1>
-      <p class="faq__lead">إجابات سريعة عن أكثر ما يسأل عنه عملاؤنا.</p>
-    </header>
-
-    <!-- data-multiple="true" يسمح بفتح أكثر من عنصر في نفس الوقت -->
-    <div class="accordion" data-accordion>
-
-      <div class="accordion__item">
-        <h2 class="accordion__heading">
-          <button class="accordion__trigger" type="button"
-                  id="faq-trigger-1" aria-expanded="true" aria-controls="faq-panel-1">
-            <span>كم يستغرق وصول الطلب؟</span>
-            <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </h2>
-        <div class="accordion__panel" id="faq-panel-1" role="region" aria-labelledby="faq-trigger-1">
-          <div class="accordion__content">
-            <p>عادةً ما يستغرق الشحن بين 3 و7 أيام عمل حسب موقعك الجغرافي.</p>
-          </div>
-        </div>
+  <div class="page-shell">
+    <div class="app-window" id="app-window" data-theme="dark">
+      <div class="window-chrome" aria-hidden="true">
+        <div class="window-chrome__dots"><span></span><span></span><span></span></div>
+        <span class="window-chrome__label">ACCORD UI / INTERACTIVE PLAYGROUND</span>
+        <span class="window-chrome__version">VANILLA JS</span>
       </div>
 
-      <div class="accordion__item">
-        <h2 class="accordion__heading">
-          <button class="accordion__trigger" type="button"
-                  id="faq-trigger-2" aria-expanded="false" aria-controls="faq-panel-2">
-            <span>هل يمكنني تتبع طلبي؟</span>
-            <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+      <button class="drawer-backdrop" id="drawer-backdrop" type="button" aria-label="Close settings panel" tabindex="-1"></button>
+
+      <aside class="sidebar" id="settings-sidebar" aria-label="Accordion configuration">
+        <div class="sidebar__header">
+          <button class="icon-button sidebar__menu" id="sidebar-toggle" type="button" aria-label="Open settings" aria-expanded="false" aria-controls="settings-sidebar">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
           </button>
-        </h2>
-        <div class="accordion__panel" id="faq-panel-2" role="region" aria-labelledby="faq-trigger-2" inert>
-          <div class="accordion__content">
-            <p>نعم، بعد شحن الطلب ستصلك رسالة تحتوي على رقم التتبع.</p>
+          <a class="sidebar__brand" href="#top" aria-label="Accordion playground home">Accordion</a>
+          <button class="icon-button theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Toggle color theme">
+            <svg class="icon theme-toggle__sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg>
+            <svg class="icon theme-toggle__moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.9 13A8.5 8.5 0 0 1 11 3.1 8.5 8.5 0 1 0 20.9 13Z"></path></svg>
+          </button>
+        </div>
+
+        <div class="sidebar__scroll">
+          <section class="control-section" aria-labelledby="display-controls-title">
+            <h2 class="control-section__title" id="display-controls-title">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10m4 0h2M4 18h2m4 0h10"></path><circle cx="16" cy="6" r="2"></circle><circle cx="8" cy="18" r="2"></circle></svg>
+              Display
+            </h2>
+            <label class="select-control" for="question-count">
+              <span class="select-control__label">Questions shown</span>
+              <span class="select-control__field"><select id="question-count" name="question-count"><option value="4">4 questions</option><option value="6">6 questions</option><option value="8" selected>8 questions</option><option value="10">10 questions</option></select><svg class="icon select-control__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></span>
+            </label>
+            <label class="select-control" for="accordion-variant">
+              <span class="select-control__label">Style</span>
+              <span class="select-control__field"><select id="accordion-variant" name="variant"><option value="filled" selected>Filled</option><option value="outlined">Outlined</option><option value="ghost">Ghost</option><option value="card">Card</option></select><svg class="icon select-control__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></span>
+            </label>
+            <label class="select-control" for="accordion-size">
+              <span class="select-control__label">Size</span>
+              <span class="select-control__field"><select id="accordion-size" name="size"><option value="sm">Small (sm)</option><option value="md" selected>Medium (md)</option><option value="lg">Large (lg)</option></select><svg class="icon select-control__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></span>
+            </label>
+          </section>
+
+          <section class="control-section" aria-labelledby="icon-controls-title">
+            <h2 class="control-section__title" id="icon-controls-title">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"></path><path d="m19 14 1.1 2.9L23 18l-2.9 1.1L19 22l-1.1-2.9L15 18l2.9-1.1L19 14Z"></path></svg>
+              Icons
+            </h2>
+            <label class="select-control" for="accordion-icon">
+              <span class="select-control__label">Icon shape</span>
+              <span class="select-control__field"><select id="accordion-icon" name="icon"><option value="caret" selected>Caret</option><option value="chevron">Chevron</option><option value="plus">Plus / minus</option><option value="arrow">Arrow</option></select><svg class="icon select-control__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></span>
+            </label>
+            <label class="select-control" for="icon-position">
+              <span class="select-control__label">Icon position</span>
+              <span class="select-control__field"><select id="icon-position" name="icon-position"><option value="start">Start</option><option value="end" selected>End</option></select><svg class="icon select-control__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></span>
+            </label>
+            <label class="select-control" for="heading-level">
+              <span class="select-control__label">Heading level</span>
+              <span class="select-control__field"><select id="heading-level" name="heading-level"><option value="h2">H2</option><option value="h3" selected>H3</option><option value="h4">H4</option><option value="h5">H5</option><option value="h6">H6</option></select><svg class="icon select-control__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></span>
+            </label>
+          </section>
+
+          <section class="control-section control-section--behaviour" aria-labelledby="behaviour-controls-title">
+            <h2 class="control-section__title" id="behaviour-controls-title">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10m4 0h2M4 17h2m4 0h10"></path><circle cx="16" cy="7" r="2"></circle><circle cx="8" cy="17" r="2"></circle></svg>
+              Behaviour
+            </h2>
+            <label class="select-control" for="accordion-type">
+              <span class="select-control__label">Interaction type</span>
+              <span class="select-control__field"><select id="accordion-type" name="type"><option value="single" selected>Single</option><option value="multiple">Multiple</option></select><svg class="icon select-control__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></span>
+            </label>
+            <label class="switch-control" for="collapsible">
+              <span class="switch-control__copy"><span class="switch-control__label">Collapsible</span><span class="switch-control__detail">Close the active question</span></span>
+              <input class="switch-control__input" id="collapsible" type="checkbox" role="switch" checked>
+              <span class="switch-control__track" aria-hidden="true"><span></span></span>
+            </label>
+            <label class="switch-control" for="animated">
+              <span class="switch-control__copy"><span class="switch-control__label">Animated</span><span class="switch-control__detail">Smooth open and close motion</span></span>
+              <input class="switch-control__input" id="animated" type="checkbox" role="switch" checked>
+              <span class="switch-control__track" aria-hidden="true"><span></span></span>
+            </label>
+            <label class="switch-control" for="disabled">
+              <span class="switch-control__copy"><span class="switch-control__label">Disabled</span><span class="switch-control__detail">Disable all questions</span></span>
+              <input class="switch-control__input" id="disabled" type="checkbox" role="switch">
+              <span class="switch-control__track" aria-hidden="true"><span></span></span>
+            </label>
+            <label class="switch-control" for="rtl">
+              <span class="switch-control__copy"><span class="switch-control__label">RTL direction</span><span class="switch-control__detail">Right-to-left layout</span></span>
+              <input class="switch-control__input" id="rtl" type="checkbox" role="switch">
+              <span class="switch-control__track" aria-hidden="true"><span></span></span>
+            </label>
+          </section>
+
+          <div class="sidebar-note">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"></path></svg>
+            <p>Tune a setting to update the live preview and generated JavaScript.</p>
           </div>
         </div>
-      </div>
+      </aside>
 
-      <div class="accordion__item">
-        <h2 class="accordion__heading">
-          <button class="accordion__trigger" type="button"
-                  id="faq-trigger-3" aria-expanded="false" aria-controls="faq-panel-3">
-            <span>ما طرق الدفع المتاحة؟</span>
-            <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </h2>
-        <div class="accordion__panel" id="faq-panel-3" role="region" aria-labelledby="faq-trigger-3" inert>
-          <div class="accordion__content">
-            <p>نقبل الدفع عبر البطاقات البنكية والمحافظ الإلكترونية، أو الدفع عند الاستلام (إن كان متاحًا في منطقتك).</p>
-          </div>
+      <main class="main-column" id="top">
+        <div class="mobile-mainbar">
+          <button class="icon-button" id="mobile-settings" type="button" aria-label="Open settings" aria-expanded="false" aria-controls="settings-sidebar"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+          <span>Accordion Playground</span>
         </div>
-      </div>
 
-      <div class="accordion__item">
-        <h2 class="accordion__heading">
-          <button class="accordion__trigger" type="button"
-                  id="faq-trigger-4" aria-expanded="false" aria-controls="faq-panel-4">
-            <span>هل يمكنني إرجاع المنتج؟</span>
-            <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </h2>
-        <div class="accordion__panel" id="faq-panel-4" role="region" aria-labelledby="faq-trigger-4" inert>
-          <div class="accordion__content">
-            <p>نعم، يمكنك إرجاع المنتج خلال 14 يومًا من تاريخ الاستلام بشرط أن يكون بحالته الأصلية.</p>
+        <header class="page-title-row">
+          <div><p class="page-title-row__eyebrow">VANILLA JAVASCRIPT UI</p><h1>Component Library</h1></div>
+          <span class="build-pill"><span></span> Live playground</span>
+        </header>
+
+        <section class="hero-card" aria-labelledby="hero-title">
+          <svg class="hero-card__sparkle" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"></path><path d="m19 14 1.1 2.9L23 18l-2.9 1.1L19 22l-1.1-2.9L15 18l2.9-1.1L19 14Z"></path></svg>
+          <p class="hero-card__eyebrow">INTERACTIVE PLAYGROUND</p>
+          <h2 id="hero-title">Explore the Accordion</h2>
+          <p class="hero-card__description">Search the React questions below, tune the props from the sidebar, and copy the code.</p>
+          <label class="hero-search__label" for="question-search">Search React questions</label>
+          <div class="hero-search">
+            <svg class="icon hero-search__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 4.5 4.5"></path></svg>
+            <input id="question-search" type="search" placeholder="Search React concepts" autocomplete="off" spellcheck="false">
+            <button class="hero-search__clear" id="clear-search" type="button" aria-label="Clear search" hidden><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg></button>
+            <kbd class="hero-search__shortcut" aria-hidden="true">/</kbd>
           </div>
-        </div>
-      </div>
+          <p class="hero-card__results" id="search-results" aria-live="polite"><strong>8</strong> results</p>
+        </section>
 
+        <section class="questions-card" aria-labelledby="questions-title">
+          <header class="questions-card__header">
+            <div><p class="questions-card__eyebrow">LEARN BY EXAMPLE</p><h2 id="questions-title">React interview questions</h2></div>
+            <span class="questions-card__count" id="questions-count"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z"></path><path d="M4 5.5V22M8 7h8M8 11h7"></path></svg><span>8 questions</span></span>
+          </header>
+          <div class="question-list accordion" id="question-list" data-accordion data-type="single" aria-label="React interview questions"></div>
+          <div class="empty-state" id="empty-state" hidden>
+            <span class="empty-state__icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 4.5 4.5"></path></svg></span>
+            <h3>No matching questions</h3>
+            <p>Try another keyword or clear your search to see all React questions.</p>
+            <button class="button-secondary" id="empty-reset" type="button">Clear search</button>
+          </div>
+        </section>
+      </main>
+
+      <aside class="right-column" aria-label="Live status and generated usage">
+        <section class="status-section" aria-labelledby="status-title">
+          <header class="right-section__header"><h2 id="status-title">Live status</h2><span class="live-indicator"><span></span>Updating</span></header>
+          <article class="stat-card">
+            <svg class="progress-ring progress-ring--blue" id="open-ring" viewBox="0 0 100 100" role="img" aria-label="Open items: 13%">
+              <circle class="progress-ring__track" cx="50" cy="50" r="39"></circle><circle class="progress-ring__value" cx="50" cy="50" r="39"></circle><text class="progress-ring__label" x="50" y="54" text-anchor="middle">13%</text>
+            </svg>
+            <div class="stat-card__copy"><h3>Open items</h3><p id="open-count">1 of 8 expanded</p><span>Current results</span></div>
+          </article>
+          <article class="stat-card stat-card--pink">
+            <svg class="progress-ring progress-ring--pink" id="match-ring" viewBox="0 0 100 100" role="img" aria-label="Search matches: 100%">
+              <circle class="progress-ring__track" cx="50" cy="50" r="39"></circle><circle class="progress-ring__value" cx="50" cy="50" r="39"></circle><text class="progress-ring__label" x="50" y="54" text-anchor="middle">100%</text>
+            </svg>
+            <div class="stat-card__copy"><h3>Search matches</h3><p id="match-count">8 of 8 shown</p><span>All questions visible</span></div>
+          </article>
+        </section>
+
+        <section class="usage-section" aria-labelledby="usage-title">
+          <header class="right-section__header usage-section__heading"><h2 id="usage-title">Usage</h2><span>Generated from your settings</span></header>
+          <div class="code-card">
+            <header class="code-card__toolbar">
+              <div class="code-card__file"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 8-4 4 4 4m8-8 4 4-4 4m-3-11-2 14"></path></svg><span>accordion.js</span><span class="code-card__language">JS</span></div>
+              <div class="code-card__actions">
+                <button class="code-card__copy" id="copy-code" type="button"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"></rect><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"></path></svg><span>Copy</span></button>
+                <button class="code-card__collapse" id="toggle-code" type="button" aria-expanded="true" aria-controls="code-body" aria-label="Collapse code panel"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+              </div>
+            </header>
+            <div class="code-card__body" id="code-body"><pre class="code-card__pre" id="generated-code" tabindex="0" aria-label="Generated JavaScript example"></pre></div>
+            <footer class="code-card__footer"><span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="m8 12 2.5 2.5L16 9"></path></svg> Live config</span><span class="code-card__status" id="copy-status" aria-live="polite"></span></footer>
+          </div>
+        </section>
+        <p class="right-note"><span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"></path></svg></span>Every control is connected. Adjust a prop and watch the preview and usage code update instantly.</p>
+      </aside>
+
+      <footer class="window-footer"><span>ACCORD UI</span><span>Accessible by design · Built with vanilla JavaScript</span><a href="https://github.com/omarkarkotlykarkotly-lab/amr-javascript-tasks/tree/main/accordion-component-task" target="_blank" rel="noreferrer">Source code <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4 11 13"></path><path d="M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"></path></svg></a></footer>
     </div>
-  </main>
+  </div>
 </body>
 </html>
