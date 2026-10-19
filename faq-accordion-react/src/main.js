@@ -35,11 +35,47 @@ const FAQ = [
 ];
 
 const SNIPPETS = {
-  single: 'import { Accordion } from \"@amr/accordion\";\n\n<Accordion.Root type=\"single\" collapsible>\n  <Accordion.Item value=\"account\">\n    <Accordion.Trigger>Account settings</Accordion.Trigger>\n    <Accordion.Content>Manage your account details.</Accordion.Content>\n  </Accordion.Item>\n</Accordion.Root>',
-  multiple: 'import { Accordion } from \"@amr/accordion\";\n\n<Accordion.Root type=\"multiple\" defaultValue={[\"profile\"]}>\n  <Accordion.Item value=\"profile\">\n    <Accordion.Trigger>Profile</Accordion.Trigger>\n    <Accordion.Content>Your profile settings.</Accordion.Content>\n  </Accordion.Item>\n</Accordion.Root>',
-  controlled: 'const [value, setValue] = useState(\"overview\");\n\n<Accordion.Root type=\"single\" value={value}\n  onValueChange={setValue} collapsible>\n  {/* Accordion.Item children */}\n</Accordion.Root>',
-  custom: '<Accordion.Trigger icon={({ open }) => (\n  <span>{open ? \"−\" : \"+\"}</span>\n)}>\n  Custom trigger\n</Accordion.Trigger>',
-  theme: '<Accordion.Root type=\"multiple\"\n  variant=\"filled\" size=\"lg\" dir=\"ltr\">\n  {/* Accessible accordion items */}\n</Accordion.Root>'
+  single: [
+    'import { Accordion } from "@amr/accordion";',
+    '',
+    '<Accordion.Root type="single" collapsible>',
+    '  <Accordion.Item value="account">',
+    '    <Accordion.Trigger>Account settings</Accordion.Trigger>',
+    '    <Accordion.Content>Manage your account details.</Accordion.Content>',
+    '  </Accordion.Item>',
+    '</Accordion.Root>'
+  ].join("\n"),
+  multiple: [
+    'import { Accordion } from "@amr/accordion";',
+    '',
+    '<Accordion.Root type="multiple" defaultValue={["profile"]}>',
+    '  <Accordion.Item value="profile">',
+    '    <Accordion.Trigger>Profile</Accordion.Trigger>',
+    '    <Accordion.Content>Your profile settings.</Accordion.Content>',
+    '  </Accordion.Item>',
+    '</Accordion.Root>'
+  ].join("\n"),
+  controlled: [
+    'const [value, setValue] = useState("overview");',
+    '',
+    '<Accordion.Root type="single" value={value}',
+    '  onValueChange={setValue} collapsible>',
+    '  {/* Accordion.Item children */}',
+    '</Accordion.Root>'
+  ].join("\n"),
+  custom: [
+    '<Accordion.Trigger icon={({ open }) => (',
+    '  <span>{open ? "−" : "+"}</span>',
+    ')}>',
+    '  Custom trigger',
+    '</Accordion.Trigger>'
+  ].join("\n"),
+  theme: [
+    '<Accordion.Root type="multiple"',
+    '  variant="filled" size="lg" dir="ltr">',
+    '  {/* Accessible accordion items */}',
+    '</Accordion.Root>'
+  ].join("\n")
 };
 const INSTALL = {
   npm: "npm install @amr/accordion",
