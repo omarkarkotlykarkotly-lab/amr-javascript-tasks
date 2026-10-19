@@ -74,7 +74,7 @@ html[data-theme="light"] select:focus-visible {
 }
 
 [hidden] {
-  display: none !important;
+  display: none;
 }
 
 .icon {
