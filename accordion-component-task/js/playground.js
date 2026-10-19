@@ -149,7 +149,7 @@ function updateSearchResults() {
   searchResults.innerHTML = "<strong>" + visibleQuestions.length + "</strong> " +
     (visibleQuestions.length === 1 ? "result" : "results") +
     (activeQuery ? ' <span class="result-query">for “' + escapeHTML(activeQuery) + "”</span>" : "");
-  questionCountBadge.textContent = limit + " questions";
+  questionCountBadge.textContent = limit + " lessons";
   updateLiveStatus();
 }
 
