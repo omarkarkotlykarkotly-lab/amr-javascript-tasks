@@ -175,7 +175,7 @@ export class Accordion {
   #applyOptions() {
     const { type, variant, size, iconPosition, headingLevel, animated, dir, disabled, icon } = this.options;
     Object.assign(this.root.dataset, {
-      type, variant, size, iconPosition, animated: String(animated), disabled: String(disabled),
+      type, variant, size, icon, iconPosition, headingLevel, animated: String(animated), disabled: String(disabled),
     });
     this.root.setAttribute("dir", dir);
     this.root.classList.add("accordion", "accordion--initialized");
