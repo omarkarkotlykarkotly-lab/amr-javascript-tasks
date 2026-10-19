@@ -13,10 +13,12 @@ export function filterQuestions(items, query) {
 
 export function debounce(callback, delay = 150) {
   let timeoutId;
-  return (...args) => {
+  const debounced = (...args) => {
     window.clearTimeout(timeoutId);
     timeoutId = window.setTimeout(() => callback(...args), delay);
   };
+  debounced.cancel = () => window.clearTimeout(timeoutId);
+  return debounced;
 }
 
 export function highlightText(element, text, query) {
