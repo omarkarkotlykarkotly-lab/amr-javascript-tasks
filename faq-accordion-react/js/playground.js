@@ -1,5 +1,5 @@
 import { Accordion } from "./accordion.js";
-import { PLAYGROUND_DEFAULTS, REACT_QUESTIONS } from "./data.js";
+import { PLAYGROUND_DEFAULTS, WEB_DEV_LESSONS } from "./data.js";
 import { clampNumber, copyText, debounce, filterQuestions, highlightText } from "./utils.js";
 
 const root = document.documentElement;
@@ -11,11 +11,12 @@ const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
 const themeToggle = document.getElementById("theme-toggle");
 const questionList = document.getElementById("question-list");
 const emptyState = document.getElementById("empty-state");
-const searchInput = document.getElementById("react-question-search");
+const searchInput = document.getElementById("lesson-search");
 const clearSearchButton = document.getElementById("clear-search");
 const emptyResetButton = document.getElementById("empty-reset");
 const searchResultCount = document.getElementById("search-result-count");
 const countBadge = document.getElementById("question-count-badge");
+const topicFilters = document.querySelector(".topic-filters");
 const openRing = document.getElementById("open-ring");
 const matchRing = document.getElementById("match-ring");
 const openRingLabel = document.getElementById("open-ring-label");
@@ -30,7 +31,8 @@ const copyLabel = document.getElementById("copy-label");
 const copyStatus = document.getElementById("copy-status");
 const collapseCodeButton = document.getElementById("collapse-code");
 const settings = { ...PLAYGROUND_DEFAULTS, disabled: false };
-const openValues = new Set(["virtual-dom"]);
+const openValues = new Set(["html-document"]);
+let activeCategory = "all";
 let accordion = null;
 let visibleItems = [];
 let searchQuery = "";
@@ -83,8 +85,8 @@ function setSidebarCollapsed(collapsed) {
 }
 
 function selectedQuestions() {
-  const count = clampNumber(settings.count, 1, REACT_QUESTIONS.length, PLAYGROUND_DEFAULTS.count);
-  return REACT_QUESTIONS.slice(0, count);
+  const count = clampNumber(settings.count, 1, WEB_DEV_LESSONS.length, PLAYGROUND_DEFAULTS.count);
+  return WEB_DEV_LESSONS.slice(0, count);
 }
 
 function createQuestionElement(item, index) {
@@ -108,9 +110,13 @@ function createQuestionElement(item, index) {
   number.textContent = String(index + 1).padStart(2, "0");
 
   const label = document.createElement("span");
+  const category = document.createElement("span");
+  category.className = "accordion__category";
+  category.textContent = item.category;
+
   label.className = "accordion__label";
   highlightText(label, item.question, searchQuery);
-  trigger.append(number, label);
+  trigger.append(number, category, label);
   heading.append(trigger);
 
   const panel = document.createElement("div");
@@ -121,8 +127,24 @@ function createQuestionElement(item, index) {
   const inner = document.createElement("div");
   inner.className = "accordion__panel-inner";
   const answer = document.createElement("p");
+  answer.className = "accordion__explanation";
   highlightText(answer, item.answer, searchQuery);
   inner.append(answer);
+
+  if (item.example) {
+    const exampleTitle = document.createElement("h4");
+    exampleTitle.className = "accordion__example-title";
+    exampleTitle.textContent = item.exampleTitle || "Example";
+
+    const pre = document.createElement("pre");
+    pre.className = "accordion__example";
+    pre.tabIndex = 0;
+    const code = document.createElement("code");
+    highlightText(code, item.example, searchQuery);
+    pre.append(code);
+    inner.append(exampleTitle, pre);
+  }
+
   panel.append(inner);
   article.append(heading, panel);
 
@@ -147,7 +169,8 @@ function renderQuestionList() {
   }
 
   const baseItems = selectedQuestions();
-  visibleItems = filterQuestions(baseItems, searchQuery);
+  const categoryItems = baseItems.filter((item) => activeCategory === "all" || item.category === activeCategory);
+  visibleItems = filterQuestions(categoryItems, searchQuery);
   const normalizedOpenValues = new Set(
     visibleItems.map((item) => item.value).filter((value) => openValues.has(value))
   );
@@ -179,7 +202,7 @@ function renderQuestionList() {
     defaultOpen: settings.type === "single" ? defaultOpen.slice(0, 1) : defaultOpen
   });
 
-  questionList.setAttribute("aria-label", "React interview questions");
+  questionList.setAttribute("aria-label", "HTML, CSS, and JavaScript lessons");
   accordion.update({
     type: settings.type,
     collapsible: settings.collapsible,
@@ -216,7 +239,7 @@ function updateRing(svg, labelNode, percent, accessibleName) {
 }
 
 function updateStatus() {
-  const baseCount = selectedQuestions().length;
+  const baseCount = selectedQuestions().filter((item) => activeCategory === "all" || item.category === activeCategory).length;
   const resultCount = visibleItems.length;
   const openedCount = visibleItems.filter((item) => openValues.has(item.value)).length;
   const openPercent = resultCount ? openedCount / resultCount * 100 : 0;
@@ -228,10 +251,10 @@ function updateStatus() {
   searchResultCount.append(strong, document.createTextNode(" " + (resultCount === 1 ? "result" : "results")));
   if (searchQuery) searchResultCount.append(document.createTextNode(" for “" + searchQuery + "”"));
 
-  countBadge.textContent = baseCount + (baseCount === 1 ? " question" : " questions");
+  countBadge.textContent = selectedQuestions().length + (selectedQuestions().length === 1 ? " lessons" : " lessons");
   openItemSummary.textContent = openedCount + " of " + resultCount + " expanded";
   matchItemSummary.textContent = resultCount + " of " + baseCount + " shown";
-  matchFootnote.textContent = searchQuery ? "Filtered by search" : "All questions visible";
+  matchFootnote.textContent = searchQuery ? "Filtered by search" : activeCategory === "all" ? "All lessons visible" : "Filtered to " + activeCategory;
 
   updateRing(openRing, openRingLabel, openPercent, "Open items");
   updateRing(matchRing, matchRingLabel, matchPercent, "Search matches");
@@ -261,7 +284,7 @@ function buildUsageCode() {
     "  }",
     ");",
     "",
-    "// " + baseCount + " React interview questions are shown.",
+    "// " + baseCount + " web development lessons in the current view.",
     'accordion.open(0); // Open the first item',
     'accordion.toggle(1); // Toggle another item'
   ].join("\n");
@@ -337,7 +360,7 @@ function readControls() {
     openValues.clear();
     if (currentValue) openValues.add(currentValue);
   }
-  settings.count = clampNumber(controls.count.value, 4, REACT_QUESTIONS.length, PLAYGROUND_DEFAULTS.count);
+  settings.count = clampNumber(controls.count.value, 4, WEB_DEV_LESSONS.length, PLAYGROUND_DEFAULTS.count);
   settings.variant = controls.variant.value;
   settings.size = controls.size.value;
   settings.icon = controls.icon.value;
@@ -429,6 +452,18 @@ emptyResetButton.addEventListener("click", () => {
 });
 
 questionList.addEventListener("accordion:change", onAccordionChange);
+
+topicFilters.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-category]");
+  if (!button) return;
+  activeCategory = button.dataset.category || "all";
+  topicFilters.querySelectorAll("[data-category]").forEach((filter) => {
+    const active = filter === button;
+    filter.classList.toggle("is-active", active);
+    filter.setAttribute("aria-pressed", String(active));
+  });
+  renderQuestionList();
+});
 
 themeToggle.addEventListener("click", () => {
   applyTheme(root.dataset.theme === "dark" ? "light" : "dark");
