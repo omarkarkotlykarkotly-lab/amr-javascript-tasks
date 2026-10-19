@@ -1,6 +1,6 @@
-# Accord UI — Vanilla Accordion Playground
+# Web Basics — HTML, CSS & JavaScript Accordion
 
-A responsive component playground and reusable Accordion class built with semantic HTML, modular CSS, and native JavaScript ES modules. The site has no framework, no external JavaScript dependency, and no build step.
+A responsive, tutorial-style playground for learning HTML, CSS, and JavaScript with short explanations and practical code examples. The reusable Accordion class is built with semantic HTML, modular CSS, and native JavaScript ES modules. There is no framework, external JavaScript dependency, or build step.
 
 ## Live demo
 
@@ -15,7 +15,7 @@ https://omarkarkotlykarkotly-lab.github.io/amr-javascript-tasks/faq-accordion-re
 - css/accordion.css — reusable Accordion variants, sizes, states, and open/close animation.
 - css/components.css — sidebar controls, hero, search, live status rings, code panel, and utility components.
 - js/accordion.js — framework-free Accordion class, data-attribute auto-init, keyboard support, public methods, and CustomEvents.
-- js/data.js — React interview questions and default playground configuration.
+- js/data.js — ten beginner lessons across HTML, CSS, and JavaScript.
 - js/utils.js — filtering, debouncing, safe text highlighting, clipboard fallback, and numeric clamping.
 - js/playground.js — page controls, dynamic questions, live metrics, theme toggle, and generated code.
 
@@ -30,6 +30,10 @@ python -m http.server 8000
 Then open http://localhost:8000/faq-accordion-react/ if you started the server from the repository root, or http://localhost:8000/ if you started it from this folder.
 
 Google Fonts are used for typography. If fonts cannot be reached, the page falls back to system sans-serif and monospace fonts. No JavaScript library, package install, compilation, or bundler is required.
+
+## Lesson content
+
+The playground begins with ten short, beginner-level topics: HTML document structure, semantic elements, links and images, CSS selectors, the box model, responsive layouts, JavaScript variables, functions, DOM events, and arrays. Each lesson includes an explanation and a code example. The topic chips filter the lessons by language, and search checks the title, explanation, category, and code sample.
 
 ## Reusable Accordion class
 
