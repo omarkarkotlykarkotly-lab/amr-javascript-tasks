@@ -45,11 +45,13 @@ function questionMarkup(question, index, query) {
   return '<article class="accordion__item" data-accordion-item data-value="' + escapeHTML(question.value) + '" data-disabled="false" data-state="' + (open ? "open" : "closed") + '" data-item-index="' + index + '">' +
     '<h3 class="accordion__heading"><button class="accordion__trigger" data-accordion-trigger type="button" id="' + triggerId + '" aria-expanded="' + String(open) + '" aria-controls="' + panelId + '">' +
     '<span class="accordion__number" aria-hidden="true">' + String(index + 1).padStart(2, "0") + '</span>' +
+    '<span class="accordion__topic">' + escapeHTML(question.topic) + '</span>' +
     '<span class="accordion__label">' + highlightText(question.question, query) + '</span>' +
     '<span class="accordion__icon" data-shape="caret" data-position="end" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="currentColor" stroke="none"></path></svg></span>' +
     '</button></h3>' +
     '<div class="accordion__panel" data-accordion-panel id="' + panelId + '" role="region" aria-labelledby="' + triggerId + '" aria-hidden="' + String(!open) + '" data-state="' + (open ? "open" : "closed") + '"' + (open ? "" : " hidden inert") + '>' +
-    '<div class="accordion__content"><p>' + highlightText(question.answer, query) + '</p></div></div></article>';
+    '<div class="accordion__content"><p>' + highlightText(question.answer, query) + '</p>' +
+    '<pre class="accordion__example"><code>' + highlightText(question.example, query) + '</code></pre></div></div></article>';
 }
 
 list.dataset.defaultOpen = "0";
@@ -119,8 +121,10 @@ function renderQuestionText(query) {
     if (!question) return;
     const label = element.querySelector(".accordion__label");
     const paragraph = element.querySelector(".accordion__content p");
+    const example = element.querySelector(".accordion__example code");
     label.innerHTML = highlightText(question.question, query);
     paragraph.innerHTML = highlightText(question.answer, query);
+    if (example) example.innerHTML = highlightText(question.example, query);
   });
 }
 
@@ -128,7 +132,7 @@ function updateSearchResults() {
   const limit = getDisplayedCount();
   const term = normalizeText(activeQuery);
   visibleQuestions = questions.slice(0, limit).filter((question) =>
-    !term || normalizeText(question.question + " " + question.answer).includes(term)
+    !term || normalizeText(question.topic + " " + question.question + " " + question.answer + " " + question.example).includes(term)
   );
   const visibleValues = new Set(visibleQuestions.map((question) => question.value));
 
@@ -181,8 +185,8 @@ function buildUsageCode() {
   return [
     'import { Accordion } from "./js/accordion.js";',
     "",
-    "// " + count + " React interview questions currently shown",
-    "const questions = [...];",
+    "// " + count + " HTML, CSS, and JavaScript lessons",
+    "const lessons = [...];",
     "",
     'const accordion = new Accordion(document.querySelector("[data-accordion]"), {',
     '  type: "' + settings.type + '",',
