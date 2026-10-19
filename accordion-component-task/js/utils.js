@@ -74,16 +74,25 @@ export function debounce(callback, delay = 150) {
 }
 
 export function highlightText(text, query) {
-  const safeText = String(text ?? "");
+  const source = String(text ?? "");
   const term = String(query ?? "").trim();
-  if (!term) return escapeHTML(safeText);
-  const escapedTerm = term.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&");
-  const matches = safeText.split(new RegExp("(" + escapedTerm + ")", "ig"));
-  return matches.map((part) =>
-    part.toLocaleLowerCase() === term.toLocaleLowerCase() && part
-      ? "<mark>" + escapeHTML(part) + "</mark>"
-      : escapeHTML(part)
-  ).join("");
+  if (!term) return escapeHTML(source);
+
+  const lowerSource = source.toLocaleLowerCase();
+  const lowerTerm = term.toLocaleLowerCase();
+  const parts = [];
+  let cursor = 0;
+  let matchAt = lowerSource.indexOf(lowerTerm, cursor);
+
+  while (matchAt !== -1) {
+    if (matchAt > cursor) parts.push(escapeHTML(source.slice(cursor, matchAt)));
+    parts.push("<mark>" + escapeHTML(source.slice(matchAt, matchAt + term.length)) + "</mark>");
+    cursor = matchAt + term.length;
+    matchAt = lowerSource.indexOf(lowerTerm, cursor);
+  }
+
+  if (cursor < source.length) parts.push(escapeHTML(source.slice(cursor)));
+  return parts.join("");
 }
 
 export function copyText(text) {
