@@ -2,22 +2,22 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export const CATEGORIES = {
-  work: { label: "عمل", icon: "▣" },
-  personal: { label: "شخصي", icon: "♡" },
-  study: { label: "دراسة", icon: "▤" },
+  work: { label: "Work", icon: "▣" },
+  personal: { label: "Personal", icon: "♡" },
+  study: { label: "Study", icon: "▤" },
 };
 
 export const PRIORITIES = {
-  high: { label: "عالية", icon: "↑" },
-  medium: { label: "متوسطة", icon: "→" },
-  low: { label: "منخفضة", icon: "↓" },
+  high: { label: "High", icon: "↑" },
+  medium: { label: "Medium", icon: "→" },
+  low: { label: "Low", icon: "↓" },
 };
 
 const starterTasks = [
   {
     id: "starter-plan",
-    title: "تخطيط أولويات اليوم",
-    description: "اختر أهم ثلاث مهام وابدأ بالأكثر تأثيراً.",
+    title: "Plan today's priorities",
+    description: "Choose the three most important tasks and start with the one that matters most.",
     category: "work",
     priority: "high",
     completed: false,
@@ -26,8 +26,8 @@ const starterTasks = [
   },
   {
     id: "starter-study",
-    title: "مراجعة مفاهيم Zustand",
-    description: "جرّب إضافة مهمة وإكمالها، ثم حدّث الصفحة للتأكد من حفظ الحالة.",
+    title: "Review Zustand concepts",
+    description: "Add a task, mark it complete, then refresh the page to check persistence.",
     category: "study",
     priority: "medium",
     completed: false,
@@ -35,9 +35,9 @@ const starterTasks = [
     createdAt: "2026-10-20T08:10:00.000Z",
   },
   {
-    id: "starter-walk",
-    title: "استراحة قصيرة",
-    description: "ابتعد عن الشاشة لبضع دقائق ثم ارجع بطاقة جديدة.",
+    id: "starter-break",
+    title: "Take a short break",
+    description: "Step away from the screen for a few minutes, then return refreshed.",
     category: "personal",
     priority: "low",
     completed: true,
@@ -98,8 +98,8 @@ export const useTodoStore = create(
         })),
     }),
     {
-      name: "amr-focusflow-todos",
-      version: 1,
+      name: "amr-focusflow-todos-en",
+      version: 2,
       partialize: (state) => ({ tasks: state.tasks }),
     }
   )
