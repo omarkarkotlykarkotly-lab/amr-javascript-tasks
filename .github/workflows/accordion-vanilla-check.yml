@@ -1,0 +1,57 @@
+name: Vanilla Accordion checks
+
+on:
+  push:
+    paths:
+      - "faq-accordion-react/**"
+      - ".github/workflows/accordion-vanilla-check.yml"
+  pull_request:
+    paths:
+      - "faq-accordion-react/**"
+      - ".github/workflows/accordion-vanilla-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: faq-accordion-react
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check JavaScript module syntax
+        run: |
+          node --experimental-default-type=module --check js/accordion.js
+          node --experimental-default-type=module --check js/data.js
+          node --experimental-default-type=module --check js/utils.js
+          node --experimental-default-type=module --check js/playground.js
+          node --experimental-default-type=module --check js/utils.test.js
+
+      - name: Run utility tests without third-party packages
+        run: node --experimental-default-type=module --test js/utils.test.js
+
+      - name: Verify the page does not load a framework or bundler
+        run: |
+          if grep -En 'importmap|react-dom|from ["'\''"]react|vite' index.html js/*.js; then
+            echo "Unexpected framework or build-tool reference found."
+            exit 1
+          fi
+          test -f css/tokens.css
+          test -f css/base.css
+          test -f css/layout.css
+          test -f css/accordion.css
+          test -f css/components.css
+          test -f js/accordion.js
+          test -f js/playground.js
+          test -f js/data.js
+          test -f js/utils.js
