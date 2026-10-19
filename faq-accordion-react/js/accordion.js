@@ -105,6 +105,7 @@ export class Accordion {
     this.onKeydown = this.handleKeydown.bind(this);
 
     this.element.classList.add("accordion");
+    this.element.dataset.accordionRoot = "";
     this.element.addEventListener("click", this.onClick);
     this.element.addEventListener("keydown", this.onKeydown);
     instances.set(this.element, this);
@@ -120,7 +121,8 @@ export class Accordion {
   }
 
   getItems() {
-    return Array.from(this.element.querySelectorAll("[data-accordion-item]"));
+    return Array.from(this.element.querySelectorAll("[data-accordion-item]"))
+      .filter((item) => item.closest("[data-accordion-root]") === this.element);
   }
 
   isItemDisabled(item) {
@@ -425,6 +427,7 @@ export class Accordion {
       panel.hidden = false;
     });
     this.element.classList.remove("accordion");
+    delete this.element.dataset.accordionRoot;
     instances.delete(this.element);
   }
 }
