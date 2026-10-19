@@ -19,7 +19,9 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "react": "^19.1.0",
@@ -39,6 +41,10 @@
     "vitest": "^3.2.4",
     "jsdom": "^26.1.0",
     "@typescript-eslint/parser": "^8.38.0",
-    "@typescript-eslint/eslint-plugin": "^8.38.0"
+    "@typescript-eslint/eslint-plugin": "^8.38.0",
+    "@types/node": "^22.15.30",
+    "@storybook/react": "^9.0.0",
+    "@storybook/react-vite": "^9.0.0",
+    "storybook": "^9.0.0"
   }
 }
