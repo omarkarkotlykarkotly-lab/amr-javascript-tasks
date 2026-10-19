@@ -25,7 +25,7 @@ export interface AccordionRootProps extends Omit<HTMLAttributes<HTMLDivElement>,
   type: AccordionType;
   value?: AccordionValue;
   defaultValue?: AccordionValue;
-  onValueChange?: (value: string | string[]) => void;
+  onValueChange?: (value: string | string[] | undefined) => void;
   collapsible?: boolean;
   disabled?: boolean;
   dir?: AccordionDirection;
@@ -64,13 +64,14 @@ function normalizeValue(type: AccordionType, value: AccordionValue): string[] {
 }
 
 const Root = forwardRef<HTMLDivElement, AccordionRootProps>(function AccordionRoot(
-  { type, value, defaultValue, onValueChange, collapsible = false, disabled = false,
-    dir = "ltr", orientation = "vertical", variant = "default", size = "md",
-    className, children, id, ...rest }, forwardedRef,
+  props, forwardedRef,
 ) {
+  const { type, value, defaultValue, onValueChange, collapsible = false, disabled = false,
+    dir = "ltr", orientation = "vertical", variant = "default", size = "md",
+    className, children, id, ...rest } = props;
   const generatedId = useId();
   const rootId = "accordion-" + generatedId.replace(/:/g, "");
-  const controlled = value !== undefined;
+  const controlled = Object.prototype.hasOwnProperty.call(props, "value");
   const [internalValue, setInternalValue] = useState<string[]>(() => normalizeValue(type, defaultValue));
   const selected = normalizeValue(type, controlled ? value : internalValue);
   const openValues = useMemo(() => new Set(selected), [selected.join("|")]);
@@ -85,7 +86,7 @@ const Root = forwardRef<HTMLDivElement, AccordionRootProps>(function AccordionRo
       next = current.includes(itemValue) ? current.filter((entry) => entry !== itemValue) : [...current, itemValue];
     }
     if (!controlled) setInternalValue(next);
-    onValueChange?.(type === "single" ? (next[0] ?? "") : next);
+    onValueChange?.(type === "single" ? next[0] : next);
   }, [type, controlled, value, internalValue, collapsible, onValueChange]);
 
   const context = useMemo<RootContextValue>(() => ({
@@ -181,14 +182,14 @@ const Trigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(function Ac
 Trigger.displayName = "Accordion.Trigger";
 
 const Content = forwardRef<HTMLDivElement, AccordionContentProps>(function AccordionContent(
-  { forceMount = false, className, children, ...rest }, forwardedRef,
+  { className, children, ...rest }, forwardedRef,
 ) {
   const item = useItemContext();
   return (
     <div {...rest} ref={forwardedRef} id={item.contentId}
       className={["accordion-content", className].filter(Boolean).join(" ")}
       role="region" aria-labelledby={item.triggerId} aria-hidden={!item.open}
-      data-state={item.open ? "open" : "closed"} inert={!item.open && !forceMount}>
+      data-state={item.open ? "open" : "closed"} inert={!item.open}>
       <div className="accordion-content-inner">{children}</div>
     </div>
   );
