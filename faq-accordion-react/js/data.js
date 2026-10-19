@@ -1,48 +1,88 @@
-export const REACT_QUESTIONS = [
+export const WEB_DEV_LESSONS = [
   {
-    value: "virtual-dom",
-    question: "What is the Virtual DOM in React?",
-    answer: "The Virtual DOM is a lightweight, in-memory representation of the UI. When state or props change, React creates an updated representation, compares it with the previous one, and commits necessary changes to the real DOM. This reconciliation process helps React update interfaces predictably."
+    value: "html-document",
+    category: "HTML",
+    question: "What is the basic structure of an HTML page?",
+    answer: "HTML describes the structure of a web page. The doctype tells the browser to use modern HTML, the head stores page metadata, and the body contains the content visitors see.",
+    exampleTitle: "A minimal HTML document",
+    example: '<!doctype html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>My first page</title>\n</head>\n<body>\n  <h1>Hello, world!</h1>\n  <p>My first paragraph.</p>\n</body>\n</html>'
   },
   {
-    value: "props-state",
-    question: "What is the difference between props and state?",
-    answer: "Props are inputs passed from a parent component and should be treated as read-only by the receiving component. State is data a component manages over time, commonly with a Hook such as useState. Updating state schedules a render with the new value."
+    value: "html-semantic",
+    category: "HTML",
+    question: "What are semantic HTML elements?",
+    answer: "Semantic elements explain the purpose of their content. Use header for introductory content, nav for navigation, main for the page's main content, section for a themed group, and footer for closing information. Clear semantics help maintainability and assistive technologies.",
+    exampleTitle: "A semantic page layout",
+    example: '<header>\n  <h1>Learning Web Development</h1>\n</header>\n<nav aria-label="Main navigation">\n  <a href="#lessons">Lessons</a>\n</nav>\n<main id="lessons">\n  <section>\n    <h2>HTML basics</h2>\n    <p>Build a meaningful page structure.</p>\n  </section>\n</main>\n<footer>Keep learning.</footer>'
   },
   {
-    value: "hooks",
-    question: "What are React Hooks?",
-    answer: "Hooks let function components use React features such as state, context, refs, and effects. Common examples include useState, useEffect, useContext, useRef, and useMemo. Call Hooks at the top level of a function component or custom Hook, not inside loops or conditions."
+    value: "html-links-images",
+    category: "HTML",
+    question: "How do links and images work in HTML?",
+    answer: "The anchor element creates a link with href pointing to its destination. The img element embeds an image; its alt text should communicate the image's meaning, or be empty when the image is purely decorative. Use descriptive link text rather than vague labels.",
+    exampleTitle: "A link and an accessible image",
+    example: '<a href="https://www.w3schools.com/">\n  Explore HTML tutorials\n</a>\n\n<img src="landscape.jpg"\n     alt="Green hills beneath a blue sky"\n     width="480">'
   },
   {
-    value: "keys",
-    question: "Why are keys important when rendering lists?",
-    answer: "Keys give sibling elements stable identities so React can match items between renders. Prefer a stable identifier from your data rather than an array index when items may be inserted, removed, or reordered. Good keys help React preserve component state and avoid unnecessary DOM changes."
+    value: "css-selectors",
+    category: "CSS",
+    question: "How do CSS selectors target elements?",
+    answer: "A type selector targets every element of that kind, a class selector starts with a dot and can be reused, and an ID selector starts with a hash and targets one unique ID. Prefer classes for reusable component styling.",
+    exampleTitle: "Type, class, and ID selectors",
+    example: 'p {\n  line-height: 1.7;\n}\n\n.lesson-card {\n  padding: 1rem;\n  border-radius: 12px;\n}\n\n#page-title {\n  color: #4f46e5;\n}'
   },
   {
-    value: "use-effect",
-    question: "When should you use useEffect?",
-    answer: "useEffect synchronizes a component with an external system, such as a subscription, browser API, timer, or network connection. Its dependency list describes the reactive values used by the effect, and its cleanup function releases resources before the effect runs again or the component unmounts."
+    value: "css-box-model",
+    category: "CSS",
+    question: "What is the CSS box model?",
+    answer: "Every element is laid out as a box: content sits inside padding, then border, then margin. Setting box-sizing to border-box makes the declared width include padding and border, which makes sizing more predictable.",
+    exampleTitle: "A predictable content box",
+    example: '* {\n  box-sizing: border-box;\n}\n\n.lesson-card {\n  width: 100%;\n  padding: 1.25rem;\n  border: 1px solid #dbe2f0;\n  margin-block: 1rem;\n}'
   },
   {
-    value: "controlled",
-    question: "What is the difference between controlled and uncontrolled components?",
-    answer: "A controlled component receives its current value from props and notifies its parent about changes through a callback. An uncontrolled component keeps its own internal state and may accept an initial defaultValue. Controlled state is useful when multiple parts of an interface must stay in sync."
+    value: "css-responsive",
+    category: "CSS",
+    question: "How can CSS make a page responsive?",
+    answer: "Responsive layouts adapt to the available space. Flexible grids can use minmax and auto-fit, while media queries let you adjust details at a chosen viewport width. Start with flexible sizing so the layout works before adding special breakpoints.",
+    exampleTitle: "A responsive card grid",
+    example: '.lesson-grid {\n  display: grid;\n  grid-template-columns:\n    repeat(auto-fit, minmax(220px, 1fr));\n  gap: 1rem;\n}\n\n@media (max-width: 640px) {\n  .page-title {\n    font-size: 1.75rem;\n  }\n}'
   },
   {
-    value: "context",
-    question: "What problem does the Context API solve?",
-    answer: "Context lets a parent provide a value to deeply nested descendants without passing it through every intermediate component as props. It is commonly used for themes, locale, or authenticated-user data. Keep context values focused, because consumers update when the provided value changes."
+    value: "js-variables",
+    category: "JavaScript",
+    question: "How do let and const work in JavaScript?",
+    answer: "Use const by default when a variable will not be reassigned. Use let when you need to assign it a new value later. Both are block-scoped. A const object can still have its properties changed; const prevents reassignment of the variable itself.",
+    exampleTitle: "Declaring values",
+    example: 'const course = "JavaScript";\nlet completedLessons = 0;\n\ncompletedLessons += 1;\nconsole.log(course);\nconsole.log(completedLessons);'
   },
   {
-    value: "memoization",
-    question: "When should you use React.memo, useMemo, or useCallback?",
-    answer: "React.memo can skip rendering a component when its props have not changed, useMemo caches a calculation result, and useCallback caches a function reference. They are performance tools, not default requirements. Measure a real performance issue first, and keep dependencies correct to avoid stale values."
+    value: "js-functions",
+    category: "JavaScript",
+    question: "What is a JavaScript function?",
+    answer: "A function groups instructions that can be run when needed. Parameters provide input, and return sends a result back to the caller. Functions help you avoid repeating the same logic throughout a program.",
+    exampleTitle: "A reusable function",
+    example: 'function greet(name) {\n  return "Hello, " + name + "!";\n}\n\nconst message = greet("Alex");\nconsole.log(message);'
+  },
+  {
+    value: "js-dom",
+    category: "JavaScript",
+    question: "How does JavaScript change a web page?",
+    answer: "The DOM represents the document as objects JavaScript can access. Use querySelector to find an element, textContent to update text safely, and addEventListener to respond to a user action such as a button click.",
+    exampleTitle: "Update text when a button is clicked",
+    example: '<button id="greet-button" type="button">\n  Say hello\n</button>\n<p id="greeting"></p>\n\n<script>\n  const button = document.querySelector("#greet-button");\n  const greeting = document.querySelector("#greeting");\n\n  button.addEventListener("click", () => {\n    greeting.textContent = "Hello, learner!";\n  });\n</script>'
+  },
+  {
+    value: "js-arrays",
+    category: "JavaScript",
+    question: "What is an array, and how can you loop through it?",
+    answer: "An array stores an ordered list of values. You can access an item by its zero-based index and use forEach to run a callback for every item. Use a stable, meaningful value when turning data into interface content.",
+    exampleTitle: "Looping through an array",
+    example: 'const topics = ["HTML", "CSS", "JavaScript"];\n\ntopics.forEach((topic, index) => {\n  console.log(index + 1, topic);\n});'
   }
 ];
 
 export const PLAYGROUND_DEFAULTS = Object.freeze({
-  count: 8,
+  count: 10,
   type: "single",
   collapsible: true,
   variant: "filled",
