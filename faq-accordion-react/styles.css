@@ -472,3 +472,21 @@ html[dir="rtl"] .sidebar-collapsed .sidebar-header { align-items: center; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
+
+
+/* Keep interactive hero copy readable when the app uses the light theme. */
+html[data-theme="light"] .hero-card h2 { color: #171b35; }
+html[data-theme="light"] .hero-kicker { color: #51459b; }
+html[data-theme="light"] .hero-description { color: #3f476a; }
+html[data-theme="light"] .hero-sparkle { color: rgba(70, 66, 136, .7); }
+html[data-theme="light"] .hero-search-label { color: #252d52; }
+html[data-theme="light"] .hero-search { border-color: rgba(30,45,100,.19); background: rgba(20,28,58,.055); }
+html[data-theme="light"] .hero-search:focus-within { border-color: #7778cb; background: rgba(255,255,255,.6); }
+html[data-theme="light"] .hero-search-icon { color: #596487; }
+html[data-theme="light"] .hero-search input { color: #141b36; }
+html[data-theme="light"] .hero-search input::placeholder { color: #596487; opacity: 1; }
+html[data-theme="light"] .search-shortcut { border-color: rgba(32,45,92,.3); color: #30385e; background: rgba(255,255,255,.5); }
+html[data-theme="light"] .hero-result-count { color: #3f476a; }
+html[data-theme="light"] .hero-result-count strong { color: #171b35; }
+html[data-theme="light"] .question-item[data-state="open"] .question-trigger { color: #6e2f67; }
+html[data-theme="light"] .question-item[data-state="open"] .question-trailing-icon { color: #8d3e7c; }
