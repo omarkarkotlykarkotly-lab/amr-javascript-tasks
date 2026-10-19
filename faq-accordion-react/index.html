@@ -3,13 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f7fb">
-  <meta name="description" content="A responsive React FAQ accordion with topic filters, search, and accessible controls.">
-  <title>Frequently Asked Questions | AMR</title>
+  <meta name="theme-color" content="#FAFAFB">
+  <meta name="description" content="A polished, accessible React Accordion component library with live examples, TypeScript API docs, theming controls, and keyboard navigation.">
+  <meta name="color-scheme" content="light dark">
+  <title>Accord UI — Accessible React Accordion</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css?v=3">
   <script type="importmap">
     {
       "imports": {
@@ -18,14 +19,15 @@
       }
     }
   </script>
-  <script type="module" src="./src/main.js?v=1"></script>
+  <script type="module" src="./src/main.js?v=3"></script>
 </head>
 <body>
   <div id="root">
-    <div class="loading-screen">
-      <div class="loading-mark">?</div>
-      <p>Preparing your help center...</p>
+    <div style="display:grid;min-height:100vh;place-content:center;justify-items:center;gap:14px;font:13px Inter,system-ui,sans-serif;color:#6b6f85">
+      <div style="width:35px;height:35px;border:3px solid #e7e8ee;border-top-color:#6366f1;border-radius:50%;animation:spin .8s linear infinite"></div>
+      Loading Accord UI…
     </div>
+    <style>@keyframes spin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style>
   </div>
 </body>
 </html>
