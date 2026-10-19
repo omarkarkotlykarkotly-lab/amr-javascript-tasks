@@ -80,6 +80,9 @@
 .sidebar-scroll::-webkit-scrollbar { width: 5px; }
 .sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
 .sidebar-scroll::-webkit-scrollbar-thumb { border-radius: 20px; background: #405783; }
+.app-window.sidebar-collapsed { grid-template-columns: 82px minmax(400px, 1fr) minmax(285px, 350px); }
+.sidebar-collapsed .sidebar-header { flex-direction: column; justify-content: center; gap: 14px; padding: 12px 5px; }
+.sidebar-collapsed .sidebar-brand, .sidebar-collapsed .sidebar-scroll { display: none; }
 .main-column {
   grid-column: 2;
   grid-row: 2;
