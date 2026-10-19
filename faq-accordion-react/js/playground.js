@@ -248,10 +248,10 @@ function updateStatus() {
   searchResultCount.replaceChildren();
   const strong = document.createElement("strong");
   strong.textContent = String(resultCount);
-  searchResultCount.append(strong, document.createTextNode(" " + (resultCount === 1 ? "result" : "results")));
+  searchResultCount.append(strong, document.createTextNode(" " + (resultCount === 1 ? "lesson" : "lessons")));
   if (searchQuery) searchResultCount.append(document.createTextNode(" for “" + searchQuery + "”"));
 
-  countBadge.textContent = selectedQuestions().length + (selectedQuestions().length === 1 ? " lessons" : " lessons");
+  countBadge.textContent = selectedQuestions().length + " lessons";
   openItemSummary.textContent = openedCount + " of " + resultCount + " expanded";
   matchItemSummary.textContent = resultCount + " of " + baseCount + " shown";
   matchFootnote.textContent = searchQuery ? "Filtered by search" : activeCategory === "all" ? "All lessons visible" : "Filtered to " + activeCategory;
@@ -262,7 +262,7 @@ function updateStatus() {
 }
 
 function buildUsageCode() {
-  const baseCount = selectedQuestions().length;
+  const baseCount = selectedQuestions().filter((item) => activeCategory === "all" || item.category === activeCategory).length;
   return [
     'import { Accordion } from "./js/accordion.js";',
     "",
@@ -284,7 +284,7 @@ function buildUsageCode() {
     "  }",
     ");",
     "",
-    "// " + baseCount + " web development lessons in the current view.",
+    "// " + baseCount + " lessons in the selected topic view.",
     'accordion.open(0); // Open the first item',
     'accordion.toggle(1); // Toggle another item'
   ].join("\n");
