@@ -11,7 +11,7 @@ An independent Arabic right-to-left task manager built with React and Zustand. I
 - Record Pomodoro focus sessions for each task.
 - Summary cards and completion percentage.
 - Zustand `persist` middleware saves tasks to localStorage.
-- Responsive layout and RTL Arabic interface.
+- Responsive layout and English left-to-right interface.
 
 ## Run locally
 From the repository root, start a static server:
