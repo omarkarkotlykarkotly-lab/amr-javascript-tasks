@@ -126,6 +126,10 @@ interface ItemContextValue {
 
 type ButtonChildProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   ref?: Ref<HTMLButtonElement>;
+  "aria-expanded"?: boolean;
+  "aria-controls"?: string;
+  "data-accordion-trigger"?: string;
+  "data-state"?: "open" | "closed";
 };
 
 const RootContext = createContext<RootContextValue | null>(null);
@@ -153,7 +157,7 @@ function useItemContext(): ItemContextValue {
 
 function normalizeValue(type: AccordionType, value: AccordionValue): string[] {
   if (type === "multiple") return Array.isArray(value) ? value : value == null ? [] : [value];
-  if (Array.isArray(value)) return value.length ? [value[0]] : [];
+  if (Array.isArray(value)) return value.length && value[0] !== undefined ? [value[0]] : [];
   return value == null ? [] : [value];
 }
 
