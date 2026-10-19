@@ -131,16 +131,16 @@ function renderQuestionText(query) {
 function updateSearchResults() {
   const limit = getDisplayedCount();
   const term = normalizeText(activeQuery);
-  visibleQuestions = questions.slice(0, limit).filter((question) =>
+  const matchesQuery = questions.filter((question) =>
     !term || normalizeText(question.topic + " " + question.question + " " + question.answer + " " + question.example).includes(term)
   );
+  visibleQuestions = matchesQuery.slice(0, limit);
   const visibleValues = new Set(visibleQuestions.map((question) => question.value));
 
   accordion.items.forEach(({ element, index }) => {
     const question = questions[index];
-    const isWithinLimit = index < limit;
     const matches = Boolean(question && visibleValues.has(question.value));
-    element.hidden = !isWithinLimit || !matches;
+    element.hidden = !matches;
   });
 
   renderQuestionText(activeQuery);
