@@ -80,8 +80,6 @@ function setSidebarCollapsed(collapsed) {
   appWindow.classList.toggle("sidebar-collapsed", sidebarCollapsed);
   sidebarToggle.setAttribute("aria-expanded", String(!sidebarCollapsed));
   sidebarToggle.setAttribute("aria-label", sidebarCollapsed ? "Expand controls" : "Collapse controls");
-  sidebar.setAttribute("aria-hidden", String(sidebarCollapsed));
-  sidebar.inert = sidebarCollapsed;
 }
 
 function selectedQuestions() {
@@ -133,7 +131,9 @@ function createQuestionElement(item, index) {
 
 function captureOpenValues() {
   if (!accordion) return;
-  accordion.getOpenIndices().forEach((index) => {
+  const indices = accordion.getOpenIndices();
+  const activeIndices = settings.type === "single" ? indices.slice(0, 1) : indices;
+  activeIndices.forEach((index) => {
     const value = visibleItems[index]?.value;
     if (value) openValues.add(value);
   });
@@ -329,13 +329,21 @@ function updateUsageCode() {
 }
 
 function readControls() {
+  const previousType = settings.type;
+  const nextType = controls.type.value;
+  if (nextType === "single" && previousType !== "single") {
+    const currentIndex = accordion?.getOpenIndices()[0];
+    const currentValue = currentIndex === undefined ? null : visibleItems[currentIndex]?.value;
+    openValues.clear();
+    if (currentValue) openValues.add(currentValue);
+  }
   settings.count = clampNumber(controls.count.value, 4, REACT_QUESTIONS.length, PLAYGROUND_DEFAULTS.count);
   settings.variant = controls.variant.value;
   settings.size = controls.size.value;
   settings.icon = controls.icon.value;
   settings.iconPosition = controls.iconPosition.value;
   settings.headingLevel = controls.headingLevel.value;
-  settings.type = controls.type.value;
+  settings.type = nextType;
   settings.collapsible = controls.collapsible.checked;
   settings.animated = controls.animated.checked;
   settings.disabled = controls.disabled.checked;
@@ -497,6 +505,7 @@ window.addEventListener("resize", () => {
 function init() {
   settings.count = Number(controls.count.value);
   applyTheme(root.dataset.theme === "light" ? "light" : "dark", false);
+  setDrawerOpen(false);
   renderQuestionList();
 }
 
