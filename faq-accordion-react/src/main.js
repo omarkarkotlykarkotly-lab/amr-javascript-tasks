@@ -312,7 +312,17 @@ function CodePanel({ code, collapsed, onToggleCollapse }) {
 }
 
 function App() {
-  const [theme, setTheme] = useState(() => document.documentElement.dataset.theme === "light" ? "light" : "dark");
+  const [themeMode, setThemeMode] = useState(() => {
+    try {
+      const saved = localStorage.getItem("accordion-demo-theme");
+      return saved === "light" || saved === "dark" ? saved : "system";
+    } catch (error) {
+      return "system";
+    }
+  });
+  const [systemTheme, setSystemTheme] = useState(() => document.documentElement.dataset.theme === "light" ? "light" : "dark");
+  const theme = themeMode === "system" ? systemTheme : themeMode;
+  const [smallScreen, setSmallScreen] = useState(false);
   const [questionCount, setQuestionCount] = useState("8");
   const [variant, setVariant] = useState("filled");
   const [size, setSize] = useState("md");
@@ -339,9 +349,30 @@ function App() {
   const searchPercent = baseItems.length ? filteredItems.length / baseItems.length * 100 : 0;
 
   useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    try { localStorage.setItem("accordion-demo-theme", theme); } catch (error) {}
-  }, [theme]);
+    if (themeMode !== "system") {
+      document.documentElement.dataset.theme = themeMode;
+      try { localStorage.setItem("accordion-demo-theme", themeMode); } catch (error) {}
+      return undefined;
+    }
+    try { localStorage.removeItem("accordion-demo-theme"); } catch (error) {}
+    const media = window.matchMedia("(prefers-color-scheme: light)");
+    const syncTheme = () => {
+      const nextTheme = media.matches ? "light" : "dark";
+      setSystemTheme(nextTheme);
+      document.documentElement.dataset.theme = nextTheme;
+    };
+    syncTheme();
+    media.addEventListener?.("change", syncTheme);
+    return () => media.removeEventListener?.("change", syncTheme);
+  }, [themeMode]);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 1180px)");
+    const syncSize = () => setSmallScreen(media.matches);
+    syncSize();
+    media.addEventListener?.("change", syncSize);
+    return () => media.removeEventListener?.("change", syncSize);
+  }, []);
 
   useEffect(() => {
     function handleKeyboard(event) {
@@ -385,7 +416,7 @@ function App() {
   const usageCode = buildUsageCode(settings, effectiveCount);
 
   function toggleSidebar() {
-    if (window.matchMedia("(max-width: 1060px)").matches) {
+    if (window.matchMedia("(max-width: 1180px)").matches) {
       setDrawerOpen((current) => !current);
     } else {
       setSidebarCollapsed((current) => !current);
@@ -400,11 +431,11 @@ function App() {
         h("span", { className: "window-chrome-version" }, "PREVIEW")
       ),
       h("button", { type: "button", className: "drawer-backdrop", onClick: () => setDrawerOpen(false), tabIndex: -1, "aria-label": "Close settings panel" }),
-      h("aside", { className: "sidebar", "aria-label": "Accordion configuration" },
+      h("aside", { id: "accordion-sidebar", className: "sidebar", "aria-label": "Accordion configuration", "aria-hidden": smallScreen && !drawerOpen, inert: smallScreen && !drawerOpen },
         h("div", { className: "sidebar-header" },
-          h("button", { type: "button", className: "icon-button menu-button", onClick: toggleSidebar, "aria-label": sidebarCollapsed ? "Expand controls" : "Collapse controls", "aria-expanded": !sidebarCollapsed }, h(Icon, { name: "menu", size: 18 })),
+          h("button", { type: "button", className: "icon-button menu-button", onClick: toggleSidebar, "aria-label": smallScreen ? (drawerOpen ? "Close controls" : "Open controls") : (sidebarCollapsed ? "Expand controls" : "Collapse controls"), "aria-expanded": smallScreen ? drawerOpen : !sidebarCollapsed, "aria-controls": "accordion-sidebar" }, h(Icon, { name: "menu", size: 18 })),
           h("span", { className: "sidebar-brand" }, "Accordion"),
-          h("button", { type: "button", className: "icon-button theme-button", onClick: () => setTheme(theme === "dark" ? "light" : "dark"), "aria-label": "Switch to " + (theme === "dark" ? "light" : "dark") + " theme", title: "Toggle theme" }, h(Icon, { name: theme === "dark" ? "sun" : "moon", size: 17 }))
+          h("button", { type: "button", className: "icon-button theme-button", onClick: () => setThemeMode(theme === "dark" ? "light" : "dark"), "aria-label": "Switch to " + (theme === "dark" ? "light" : "dark") + " theme", title: "Toggle theme" }, h(Icon, { name: theme === "dark" ? "sun" : "moon", size: 17 }))
         ),
         h("div", { className: "sidebar-scroll" },
           h("section", { className: "sidebar-section" },
@@ -435,7 +466,7 @@ function App() {
       ),
       h("main", { className: "main-column" },
         h("div", { className: "mobile-mainbar" },
-          h("button", { type: "button", className: "icon-button", onClick: () => setDrawerOpen(true), "aria-label": "Open settings" }, h(Icon, { name: "menu", size: 18 })),
+          h("button", { type: "button", className: "icon-button", onClick: () => setDrawerOpen(true), "aria-label": "Open settings", "aria-expanded": drawerOpen, "aria-controls": "accordion-sidebar" }, h(Icon, { name: "menu", size: 18 })),
           h("span", null, "Accordion Playground")
         ),
         h("div", { className: "page-title-row" },
