@@ -124,3 +124,61 @@ html[data-theme="light"] .accordion__panel-inner p { color: #555b7a; }
 }
 
 .accordion__panel[hidden] { display: none; }
+
+
+/* Lesson-specific details: category pills and readable copyable examples. */
+.accordion__category {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 22px;
+  padding: 0 7px;
+  border: 1px solid rgba(169, 190, 255, .18);
+  border-radius: 6px;
+  color: #bfd0ff;
+  background: rgba(7, 17, 48, .18);
+  font: 8px "JetBrains Mono", monospace;
+  letter-spacing: .02em;
+  white-space: nowrap;
+}
+.accordion__item[data-state="open"] .accordion__category { border-color: rgba(224, 139, 192, .25); color: #f0c6e7; background: rgba(199, 125, 186, .08); }
+html[data-theme="light"] .accordion__category { color: #304981; background: rgba(72, 99, 168, .06); }
+html[data-theme="light"] .accordion__item[data-state="open"] .accordion__category { color: #7b2e6d; background: rgba(167, 78, 145, .07); }
+.accordion__explanation { margin: 0; }
+.accordion__example-title {
+  margin: 16px 0 8px;
+  padding-left: 79px;
+  color: var(--text);
+  font-family: Lexend, Inter, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+}
+.accordion__example {
+  max-width: calc(100% - 79px);
+  margin: 0 16px 20px 79px;
+  padding: 12px 14px;
+  overflow: auto;
+  border: 1px solid rgba(140, 170, 255, .16);
+  border-radius: 11px;
+  color: #d6e1ff;
+  background: rgba(4, 12, 34, .46);
+  font: 10px/1.75 "JetBrains Mono", monospace;
+  tab-size: 2;
+  white-space: pre;
+  scrollbar-width: thin;
+  scrollbar-color: #405783 transparent;
+}
+.accordion__example code { font: inherit; }
+html[data-theme="light"] .accordion__example { border-color: rgba(65, 79, 145, .15); color: #29395f; background: #eef1fb; }
+html[data-theme="light"] .accordion__example-title { color: #222b4b; }
+.accordion__example mark { color: #fff1ba; background: rgba(213, 149, 74, .32); }
+html[data-theme="light"] .accordion__example mark { color: #5f390a; background: #ffdfa0; }
+@media (max-width: 640px) {
+  .topic-filters { gap: 6px; margin-bottom: 13px; }
+  .topic-filter { min-height: 40px; padding-inline: 11px; font-size: 10px; }
+  .accordion__category { min-height: 20px; padding-inline: 5px; font-size: 7px; }
+  .accordion__example-title { padding-left: 54px; }
+  .accordion__example { max-width: calc(100% - 54px); margin: 0 10px 16px 54px; padding: 10px; font-size: 9px; }
+  .accordion[dir="rtl"] .accordion__example-title { padding-right: 54px; padding-left: 0; }
+  .accordion[dir="rtl"] .accordion__example { margin-right: 54px; margin-left: 10px; }
+}
