@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { buildUsageCode, copyToClipboard, filterQuestions, normalizeSearchValue } from "./playground-utils.js";
 
 const h = React.createElement;
 const ICON_PATHS = {
@@ -133,7 +134,7 @@ function SectionTitle({ icon, children }) {
 }
 
 function normalize(value) {
-  return String(value || "").toLowerCase().trim().replace(/\s+/g, " ");
+  return normalizeSearchValue(value);
 }
 
 function highlightText(text, query) {
@@ -259,11 +260,11 @@ function syntaxClass(token) {
 function CodePanel({ code, collapsed, onToggleCollapse }) {
   const [copied, setCopied] = useState(false);
   async function copyCode() {
-    try {
-      await navigator.clipboard.writeText(code);
+    const copiedSuccessfully = await copyToClipboard(code);
+    if (copiedSuccessfully) {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1800);
-    } catch (error) {
+    } else {
       setCopied(false);
     }
   }
@@ -331,9 +332,7 @@ function App() {
   const effectiveCount = Math.min(Number(questionCount), FAQ_ITEMS.length);
   const baseItems = useMemo(() => FAQ_ITEMS.slice(0, effectiveCount), [effectiveCount]);
   const filteredItems = useMemo(() => {
-    const term = normalize(query);
-    if (!term) return baseItems;
-    return baseItems.filter((item) => normalize(item.question + " " + item.answer).includes(term));
+    return filterQuestions(baseItems, query);
   }, [baseItems, query]);
   const visibleOpenCount = filteredItems.filter((item) => openItems.has(item.value)).length;
   const openPercent = filteredItems.length ? visibleOpenCount / filteredItems.length * 100 : 0;
@@ -383,28 +382,7 @@ function App() {
   }
 
   const settings = { variant, size, iconShape, iconPosition, headingLevel, type, collapsible, animated, disabled, rtl };
-  const usageCode = [
-    "const questions = [",
-    "  // " + effectiveCount + " React interview questions",
-    '  { value: "virtual-dom", title: "What is the Virtual DOM?", content: "..." },',
-    '  { value: "props-state", title: "Props vs. state", content: "..." },',
-    "  // Add the remaining question objects",
-    "];",
-    "",
-    " <Accordion",
-    "   items={questions.slice(0, " + effectiveCount + ")}",
-    '   type="' + type + '"',
-    '   variant="' + variant + '"',
-    '   size="' + size + '"',
-    '   icon="' + iconShape + '"',
-    '   iconPosition="' + iconPosition + '"',
-    '   headingLevel="' + headingLevel + '"',
-    "   collapsible={" + String(collapsible) + "}",
-    "   animated={" + String(animated) + "}",
-    "   disabled={" + String(disabled) + "}",
-    '   dir="' + (rtl ? "rtl" : "ltr") + '"',
-    " />"
-  ].join("\n");
+  const usageCode = buildUsageCode(settings, effectiveCount);
 
   function toggleSidebar() {
     if (window.matchMedia("(max-width: 1060px)").matches) {
