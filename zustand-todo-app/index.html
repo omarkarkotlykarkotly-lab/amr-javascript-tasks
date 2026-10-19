@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1110">
+  <meta name="description" content="A clean React and Zustand task manager with categories, priorities, focus sessions, and local persistence.">
+  <title>FocusFlow — ToDo with Zustand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@19.1.0",
+        "react-dom/client": "https://esm.sh/react-dom@19.1.0/client?external=react",
+        "zustand": "https://esm.sh/zustand@5.0.8?external=react",
+        "zustand/middleware": "https://esm.sh/zustand@5.0.8/middleware?external=react"
+      }
+    }
+  </script>
+  <script type="module" src="./src/main.js"></script>
+</head>
+<body>
+  <div id="root">
+    <div class="boot-screen" dir="rtl">
+      <div class="boot-mark">F</div>
+      <p>جارٍ تجهيز مساحة التركيز...</p>
+    </div>
+  </div>
+</body>
+</html>
