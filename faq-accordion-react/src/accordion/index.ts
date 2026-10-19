@@ -1,15 +1,21 @@
-export { Accordion, Root, Item, Trigger, Content } from "./Accordion";
+export { Accordion, Root, Item, Header, Trigger, Content } from "./Accordion";
 export type {
+  AccordionProps,
+  AccordionRootProps,
+  AccordionItemProps,
+  AccordionHeaderProps,
+  AccordionTriggerProps,
+  AccordionContentProps,
+  AccordionDataItem,
   AccordionType,
   AccordionVariant,
+  AccordionLegacyVariant,
   AccordionSize,
   AccordionDirection,
+  AccordionHeadingLevel,
   AccordionOrientation,
   AccordionValue,
   AccordionIconRenderProps,
+  AccordionIconPreset,
   AccordionIcon,
-  AccordionRootProps,
-  AccordionItemProps,
-  AccordionTriggerProps,
-  AccordionContentProps,
 } from "./Accordion";
