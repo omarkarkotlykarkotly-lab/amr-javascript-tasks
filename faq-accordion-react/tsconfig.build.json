@@ -6,6 +6,7 @@
     "moduleResolution": "Bundler",
     "jsx": "react-jsx",
     "strict": true,
+    "noUncheckedIndexedAccess": true,
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
@@ -15,6 +16,9 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/accordion/**/*.ts", "src/accordion/**/*.tsx"],
-  "exclude": ["src/accordion/**/*.test.tsx", "src/accordion/test-setup.ts"]
+  "include": [
+    "src/accordion/Accordion.tsx",
+    "src/accordion/types.ts",
+    "src/accordion/index.ts"
+  ]
 }
